@@ -1,9 +1,12 @@
-import { SignIn } from '@clerk/nextjs';
+﻿import { redirect } from "next/navigation";
+import { auth } from "@clerk/nextjs/server";
 
-export default function SignInPage() {
-  return (
-    <main style={{ display: 'flex', minHeight: '100vh', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9fafb' }}>
-      <SignIn />
-    </main>
-  );
+export default async function SignInPage() {
+  const { userId } = await auth();
+  
+  if (userId) {
+    redirect("/dashboard");
+  }
+
+  redirect("https://accounts.clerk.dev/sign-in");
 }
