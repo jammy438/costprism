@@ -1,50 +1,128 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* ── Colour primitives ── */
+  --colour-navy:          #0a1628;
+  --colour-red:           #f73112;
+  --colour-orange:        #ff8400;
+  --colour-yellow:        #fcae1e;
+  --colour-green:         #4cbb17;
+  --colour-white:         #FFFFFF;
+  --colour-blue:          #306EFF;
+
+  /* ── Semantic colours ── */
+  --colour-spend-up:      var(--colour-red);
+  --colour-spend-down:    var(--colour-green);
+  --colour-warning:       var(--colour-yellow);
+  --colour-pipeline:      var(--colour-blue);
+  --colour-forecast:      var(--colour-orange);
+
+  /* ── Backgrounds ── */
+  --colour-bg-page:       #0d1117;
+  --colour-bg-sidebar:    #080d18;
+  --colour-bg-card:       #111827;
+  --colour-bg-card-hover: #1a2332;
+
+  /* ── Borders ── */
+  --colour-border:        #1f2937;
+  --colour-border-subtle: #1a2332;
+
+  /* ── Text ── */
+  --colour-text-primary:   #FFFFFF;
+  --colour-text-secondary: #9ca3af;
+  --colour-text-muted:     #4b5563;
+  --colour-text-header:    #FFFFFF;
+  --colour-text-label:     #6b7280;
+
+  /* ── Glow overlays (used for corner glow effect) ── */
+  --colour-glow-up:       rgba(251, 59, 30, 0.22);
+  --colour-glow-down:     rgba(76, 187, 23, 0.22);
+  --colour-glow-pipeline: rgba(48, 110, 255, 0.22);
+
+  /* ── Spacing scale ── */
+  --space-xs:   4px;
+  --space-sm:   8px;
+  --space-md:   16px;
+  --space-lg:   24px;
+  --space-xl:   32px;
+  --space-2xl:  48px;
+
+  /* ── Border radius ── */
+  --radius-sm:  6px;   /* badges, pills */
+  --radius-md:  8px;   /* buttons, inputs, nav items */
+  --radius-lg:  14px;  /* cards */
+  --radius-full: 9999px; /* circular avatars */
+
+  /* ── Typography ── */
+  --font-mono: 'DM Mono', 'Fira Code', 'Courier New', monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html,
+/* ── Base styles ── */
 body {
-  max-width: 100vw;
-  overflow-x: hidden;
+  background-color: var(--colour-bg-page);
+  color: var(--colour-text-primary);
+  font-family: var(--font-mono);
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
+/* ── Card base ── */
+.cp-card {
+  background-color: var(--colour-bg-card);
+  border: 1px solid var(--colour-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  position: relative;
+  overflow: hidden;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+/* ── Corner glow effect ── */
+.cp-glow::before {
+  content: '';
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  filter: blur(35px);
+  top: -25px;
+  right: -25px;
+  opacity: 0.22;
+  pointer-events: none;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+.cp-glow-up::before    { background: var(--colour-glow-up); }
+.cp-glow-down::before  { background: var(--colour-glow-down); }
+.cp-glow-pipeline::before { background: var(--colour-glow-pipeline); }
+
+/* ── Label text style ── */
+.cp-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-weight: 600;
+  color: var(--colour-text-label);
 }
 
-.imgDark {
-  display: none;
+/* ── Sidebar nav item ── */
+.cp-nav-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  border-left: 2px solid transparent;
+  font-size: 12px;
+  color: var(--colour-text-muted);
+  transition: all 0.15s ease;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-
-  .imgLight {
-    display: none;
-  }
-  .imgDark {
-    display: unset;
-  }
+.cp-nav-item.active {
+  background-color: rgba(48, 110, 255, 0.08);
+  color: var(--colour-blue);
+  border-left-color: var(--colour-blue);
 }
+
+/* ── Scrollbar (dark mode) ── */
+::-webkit-scrollbar       { width: 6px; }
+::-webkit-scrollbar-track { background: var(--colour-bg-page); }
+::-webkit-scrollbar-thumb { background: var(--colour-border); border-radius: var(--radius-full); }
