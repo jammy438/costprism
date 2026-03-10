@@ -1,0 +1,31 @@
+import { auth } from '@clerk/nextjs/server'
+import { redirect } from 'next/navigation'
+import * as SidebarModule from "./components/Sidebar";
+import * as TopBarModule from "./components/TopBar";
+
+const Sidebar = SidebarModule.default;
+const TopBar = TopBarModule.default;
+
+export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
+  const { userId } = await auth()
+
+  if (!userId) {
+    redirect('/sign-in')
+  }
+
+  console.log("Sidebar import:", Sidebar)
+console.log("TopBar import:", TopBar)
+
+  return (
+    <div className="flex h-screen">
+      <Sidebar />
+      <div className="flex flex-col flex-1">
+        <TopBar />
+        <main className="flex-1 overflow-auto">
+          {children}
+        </main>
+      </div>
+    </div>
+  )
+}
+
