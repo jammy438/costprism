@@ -29,18 +29,26 @@ const Sidebar = () => {
         flexShrink: 0,
       }}
     >
-      {/* Logo area */}
-     <div style={{
-        padding: '16px',
+        {/* Logo area */}
+        <div style={{
+        height: '56px',
+        padding: '0 16px',
         borderBottom: '1px solid var(--colour-border)',
+        display: 'flex',
+        alignItems: 'center',
         whiteSpace: 'nowrap',
-      }}>
+        }}>
         {!collapsed && (
-          <span style={{ color: 'var(--colour-text-primary)', fontWeight: 700 }}>
+            <span style={{ color: 'var(--colour-text-primary)', fontWeight: 700, fontSize: '15px' }}>
             CostPrism
-          </span>
+            </span>
         )}
-      </div>
+        {collapsed && (
+            <span style={{ color: 'var(--colour-blue)', fontWeight: 700, fontSize: '15px' }}>
+            C
+            </span>
+        )}
+        </div>
 
       {/* Nav items */}
       <nav style={{ flex: 1, padding: '8px' }}>

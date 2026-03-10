@@ -13,9 +13,6 @@ export default async function DashboardLayout({ children }: { children: React.Re
     redirect('/sign-in')
   }
 
-  console.log("Sidebar import:", Sidebar)
-console.log("TopBar import:", TopBar)
-
   return (
   <div 
   style={{ 
