@@ -2,13 +2,16 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useSidebarStore } from '../../../lib/stores/sidebar'
+import { useSidebarStore } from '@/lib/stores/sidebar'
 
 const navItems = [
-  { label: 'Overview', href: '/dashboard' },
-  { label: 'Costs', href: '/dashboard/costs' },
-  { label: 'Anomalies', href: '/dashboard/anomalies' },
-  { label: 'Connectors', href: '/dashboard/connectors' },
+  { label: 'Overview',   href: '/dashboard',            icon: '◉' },
+  { label: 'Costs',      href: '/dashboard/costs',       icon: '£' },
+  { label: 'Budgets',    href: '/dashboard/budgets',     icon: '◫' },
+  { label: 'Tags',       href: '/dashboard/tags',        icon: '#' },
+  { label: 'Connectors', href: '/dashboard/connectors',  icon: '⬡' },
+  { label: 'Reports',    href: '/dashboard/reports',     icon: '≡' },
+  { label: 'Settings',   href: '/dashboard/settings',    icon: '⚙' },
 ]
 
 const Sidebar = () => {
@@ -16,39 +19,54 @@ const Sidebar = () => {
   const pathname = usePathname()
 
   return (
-    <div
-      style={{
-        width: collapsed ? '56px' : '220px',
-        transition: 'width 0.2s ease',
-        backgroundColor: 'var(--colour-bg-sidebar)',
-        height: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        borderRight: '1px solid var(--colour-border)',
-        overflow: 'hidden',
-        flexShrink: 0,
-      }}
-    >
-        {/* Logo area */}
-        <div style={{
+    <div style={{
+      width: collapsed ? '56px' : '220px',
+      transition: 'width 0.2s ease',
+      backgroundColor: 'var(--colour-bg-sidebar)',
+      height: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      borderRight: '1px solid var(--colour-border)',
+      overflow: 'hidden',
+      flexShrink: 0,
+    }}>
+
+      {/* Logo area */}
+      <div style={{
         height: '56px',
         padding: '0 16px',
         borderBottom: '1px solid var(--colour-border)',
         display: 'flex',
         alignItems: 'center',
+        gap: '10px',
         whiteSpace: 'nowrap',
+      }}>
+        {/* Blue C circle */}
+        <div style={{
+          width: '28px',
+          height: '28px',
+          borderRadius: '50%',
+          backgroundColor: 'var(--colour-blue)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: '#ffffff',
+          fontWeight: 700,
+          fontSize: '13px',
+          flexShrink: 0,
         }}>
-        {!collapsed && (
-            <span style={{ color: 'var(--colour-text-primary)', fontWeight: 700, fontSize: '15px' }}>
-            CostPrism
-            </span>
-        )}
-        {collapsed && (
-            <span style={{ color: 'var(--colour-blue)', fontWeight: 700, fontSize: '15px' }}>
-            C
-            </span>
-        )}
+          C
         </div>
+        {!collapsed && (
+          <span style={{
+            color: 'var(--colour-text-primary)',
+            fontWeight: 700,
+            fontSize: '15px',
+          }}>
+            CostPrism
+          </span>
+        )}
+      </div>
 
       {/* Nav items */}
       <nav style={{ flex: 1, padding: '8px' }}>
@@ -61,9 +79,10 @@ const Sidebar = () => {
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                padding: '8px 12px',
+                gap: '10px',
+                padding: '8px 10px',
                 borderRadius: '8px',
-                marginBottom: '4px',
+                marginBottom: '2px',
                 textDecoration: 'none',
                 whiteSpace: 'nowrap',
                 fontSize: '13px',
@@ -78,13 +97,25 @@ const Sidebar = () => {
                   : '2px solid transparent',
               }}
             >
-              {!collapsed && item.label}
+              {/* Icon */}
+              <span style={{
+                fontSize: '14px',
+                flexShrink: 0,
+                width: '18px',
+                textAlign: 'center',
+              }}>
+                {item.icon}
+              </span>
+              {/* Label */}
+              {!collapsed && (
+                <span>{item.label}</span>
+              )}
             </Link>
           )
         })}
       </nav>
 
-      {/* Collapse toggle button */}
+      {/* Collapse toggle */}
       <button
         onClick={toggle}
         style={{
@@ -93,9 +124,11 @@ const Sidebar = () => {
           borderRadius: '8px',
           border: '1px solid var(--colour-border)',
           backgroundColor: 'transparent',
-          color: 'var(--colour-text-secondary)',
+          color: 'var(--colour-text-muted)',
           cursor: 'pointer',
-          fontSize: '12px',
+          fontSize: '11px',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
         }}
       >
         {collapsed ? '→' : '← Collapse'}
