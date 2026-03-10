@@ -13,9 +13,11 @@
     "@clerk/elements": "^0.24.13",
     "@clerk/nextjs": "^6.39.0",
     "@repo/ui": "*",
+    "@tailwindcss/postcss": "^4.2.1",
     "next": "^15.5.12",
     "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "react-dom": "^19.2.4",
+    "zustand": "^5.0.11"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",

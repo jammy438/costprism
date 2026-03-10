@@ -1,8 +1,9 @@
-export default function DashboardPage() {
+const HomePage = () => {
   return (
-    <main style={{ padding: '2rem' }}>
-      <h1>Dashboard</h1>
-      <p>Welcome to CostPrism</p>
-    </main>
-  );
+    <div>
+      <h1>CostPrism</h1>
+    </div>
+  )
 }
+
+export default HomePage
