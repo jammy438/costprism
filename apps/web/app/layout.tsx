@@ -1,18 +1,19 @@
 import { ClerkProvider } from "@clerk/nextjs";
 import './globals.css'
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
       <body>
-        <ClerkProvider>
+        <ClerkProvider
+          signInFallbackRedirectUrl="/dashboard"
+          signUpFallbackRedirectUrl="/dashboard"
+        >
           {children}
         </ClerkProvider>
       </body>
     </html>
   );
 }
+
+export default RootLayout;
