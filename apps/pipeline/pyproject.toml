@@ -1,0 +1,65 @@
+[tool.poetry]
+name = "costprism-pipeline"
+version = "0.1.0"
+description = "CostPrism data pipeline — FOCUS normalisation, ingestion, internal endpoints"
+authors = ["George Chen <george@costprism.io>"]
+readme = "README.md"
+packages = [{ include = "src" }]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+# Temporal — durable workflow engine
+temporalio = "^1.7"
+
+# Cloud SDKs
+boto3 = "^1.34"                      # AWS (S3, STS, Pricing API)
+google-cloud-bigquery = "^3.17"      # GCP BigQuery
+google-cloud-storage = "^2.16"       # GCP Cloud Storage
+
+# Data processing
+pyarrow = "^15.0"                    # Reading Parquet CUR files
+pandas = "^2.2"                      # DataFrame transforms
+pydantic = "^2.6"                    # Schema validation (FocusCostRow etc.)
+
+# Internal HTTP service
+fastapi = "^0.110"                   # The /internal/* endpoints Sarah calls
+uvicorn = {extras = ["standard"], version = "^0.29"}  # ASGI server to run FastAPI
+httpx = "^0.27"                      # HTTP client (calling Sarah's webhook endpoint)
+
+# Database
+asyncpg = "^0.29"                    # Async Postgres driver
+sqlalchemy = "^2.0"                  # ORM / query builder on top of asyncpg
+
+# Redis
+redis = "^5.0"                       # Anomaly queue, pipeline status, pricing cache
+
+# Encryption
+cryptography = "^42.0"               # For decrypt_config() in utils/encryption.py
+
+[tool.poetry.group.dev.dependencies]
+# Testing
+pytest = "^8.0"
+pytest-asyncio = "^0.23"            # Async test support (Temporal activities are async)
+great-expectations = "^0.18"        # Data quality assertions on warehouse outputs
+
+# Code quality
+ruff = "^0.4"                        # Linter + formatter (replaces flake8/black)
+mypy = "^1.9"                        # Type checking (enforces the type hints)
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"               # Every async test function runs without needing @pytest.mark.asyncio
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+ignore_missing_imports = true       # Stops mypy complaining about untyped third-party libraries
