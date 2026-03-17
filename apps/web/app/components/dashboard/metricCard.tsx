@@ -1,4 +1,4 @@
-'use client' 
+'use client'
 
 interface MetricCardProps {
   label: string
@@ -8,9 +8,11 @@ interface MetricCardProps {
   glow: 'red' | 'green' | 'none'
   secondaryValue?: string
   upIsBad?: boolean
+  isLoading?: boolean
+  isError?: boolean
 }
 
-const MetricCard = ({ label, value, trend, trendDirection, glow, secondaryValue, upIsBad }: MetricCardProps) => {
+const MetricCard = ({ label, value, trend, trendDirection, glow, secondaryValue, upIsBad, isLoading, isError }: MetricCardProps) => {
   const glowColour = glow === 'green'
     ? 'rgba(76, 187, 23, 0.5)'
     : glow === 'red'
@@ -20,6 +22,44 @@ const MetricCard = ({ label, value, trend, trendDirection, glow, secondaryValue,
   const trendColour = upIsBad
     ? trendDirection === 'up' ? 'var(--colour-red)' : 'var(--colour-green)'
     : trendDirection === 'up' ? 'var(--colour-green)' : 'var(--colour-red)'
+
+  if (isLoading) {
+    return (
+      <div style={{
+        backgroundColor: 'var(--colour-bg-card)',
+        border: '1px solid var(--colour-border)',
+        borderRadius: '14px',
+        padding: '24px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: 'var(--colour-text-muted)',
+        fontSize: '13px',
+        minHeight: '120px',
+      }}>
+        Loading...
+      </div>
+    )
+  }
+
+  if (isError) {
+    return (
+      <div style={{
+        backgroundColor: 'var(--colour-bg-card)',
+        border: '1px solid var(--colour-border)',
+        borderRadius: '14px',
+        padding: '24px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: 'var(--colour-red)',
+        fontSize: '13px',
+        minHeight: '120px',
+      }}>
+        Failed to load
+      </div>
+    )
+  }
 
   return (
     <div style={{
@@ -31,7 +71,6 @@ const MetricCard = ({ label, value, trend, trendDirection, glow, secondaryValue,
       overflow: 'hidden',
     }}>
 
-      {/* Corner glow */}
       {glow !== 'none' && (
         <div style={{
           position: 'absolute',
@@ -46,7 +85,6 @@ const MetricCard = ({ label, value, trend, trendDirection, glow, secondaryValue,
         }} />
       )}
 
-      {/* Label */}
       <div style={{
         fontSize: '10px',
         textTransform: 'uppercase',
@@ -58,7 +96,6 @@ const MetricCard = ({ label, value, trend, trendDirection, glow, secondaryValue,
         {label}
       </div>
 
-      {/* Value row */}
       <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '8px' }}>
         <div style={{
           fontSize: '32px',
@@ -78,7 +115,6 @@ const MetricCard = ({ label, value, trend, trendDirection, glow, secondaryValue,
         )}
       </div>
 
-      {/* Trend */}
       <div style={{
         display: 'flex',
         alignItems: 'center',
