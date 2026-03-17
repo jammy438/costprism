@@ -1,16 +1,17 @@
-import { ClerkProvider } from "@clerk/nextjs";
 import './globals.css'
+import { Geist } from "next/font/google";
+import { cn } from "@/lib/utils";
+import { Providers } from "./providers";
+
+const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <html lang="en">
+    <html lang="en" className={cn("font-sans", geist.variable)}>
       <body>
-        <ClerkProvider
-          signInFallbackRedirectUrl="/dashboard"
-          signUpFallbackRedirectUrl="/dashboard"
-        >
+        <Providers>
           {children}
-        </ClerkProvider>
+        </Providers>
       </body>
     </html>
   );

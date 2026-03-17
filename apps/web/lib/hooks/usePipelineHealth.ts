@@ -1,6 +1,8 @@
+'use client'
+
 import { useQuery } from '@tanstack/react-query'
 import { useOrganization } from '@clerk/nextjs'
-import { mockPipelineHealthResponse, PipelineHealthResponse } from '../mockData'
+import { mockPipelineHealthResponse, PipelineHealthResponse } from './../mockData'
 
 export const usePipelineHealth = () => {
   const { organization } = useOrganization()

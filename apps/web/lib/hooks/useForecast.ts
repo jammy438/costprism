@@ -1,3 +1,5 @@
+'use client'
+
 import { useQuery } from '@tanstack/react-query'
 import { useOrganization } from '@clerk/nextjs'
 import { mockForecastResponse, ForecastResponse } from '../mockData'
@@ -20,3 +22,4 @@ async function fetchForecast(orgId: string, from: string, to: string): Promise<F
   if (!response.ok) throw new Error('Network response was not ok')
   return response.json()
 }
+
