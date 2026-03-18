@@ -5,14 +5,15 @@ interface MetricCardProps {
   value: string
   trend: string
   trendDirection: 'up' | 'down'
-  glow: 'red' | 'green' | 'none'
+  glow: 'red' | 'green' | 'amber' | 'none'
   secondaryValue?: string
   upIsBad?: boolean
   isLoading?: boolean
   isError?: boolean
+  hideTrendArrow?: boolean
 }
 
-const MetricCard = ({ label, value, trend, trendDirection, glow, secondaryValue, upIsBad, isLoading, isError }: MetricCardProps) => {
+const MetricCard = ({ label, value, trend, trendDirection, glow, secondaryValue, upIsBad, isLoading, isError, hideTrendArrow }: MetricCardProps) => {
   const glowColour = glow === 'green'
     ? 'rgba(76, 187, 23, 0.5)'
     : glow === 'red'
@@ -123,7 +124,7 @@ const MetricCard = ({ label, value, trend, trendDirection, glow, secondaryValue,
         fontSize: '12px',
         fontWeight: 500,
       }}>
-        <span>{trendDirection === 'up' ? '↑' : '↓'}</span>
+        {!hideTrendArrow && <span>{trendDirection === 'up' ? '↑' : '↓'}</span>}
         <span>{trend}</span>
       </div>
 

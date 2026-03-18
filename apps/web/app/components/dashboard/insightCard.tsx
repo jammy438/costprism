@@ -4,7 +4,7 @@ interface InsightRowProps {
   severity: 'warning' | 'critical' | 'good' | 'info'
   title: string
   description: string
-  badge: string
+  badge?: string
 }
 
 const InsightRow = ({ severity, title, description, badge }: InsightRowProps) => {
@@ -52,18 +52,19 @@ const InsightRow = ({ severity, title, description, badge }: InsightRowProps) =>
         </div>
       </div>
 
-      {/* Badge */}
-      <div style={{
-        padding: '4px 8px',
-        borderRadius: '6px',
-        backgroundColor: `${severityColours[severity]}22`,
-        color: severityColours[severity],
-        fontSize: '12px',
-        fontWeight: 600,
-        flexShrink: 0,
-      }}>
-        {badge}
-      </div>
+            {badge && (
+        <div style={{
+            padding: '4px 8px',
+            borderRadius: '6px',
+            backgroundColor: `${severityColours[severity]}22`,
+            color: severityColours[severity],
+            fontSize: '12px',
+            fontWeight: 600,
+            flexShrink: 0,
+        }}>
+            {badge}
+        </div>
+        )}
 
     </div>
   )
