@@ -1,7 +1,8 @@
+'use client'
+
 import { useQuery } from '@tanstack/react-query'
 import { useOrganization } from '@clerk/nextjs'
-import { mockSpendByProviderResponse, SpendByProviderResponse } from '../mockData'
-
+import { mockSpendByProviderResponse, SpendByProviderResponse } from './../mockData'
 export const useSpendByProvider = () => {
   const { organization } = useOrganization()
   const orgId = organization?.id
