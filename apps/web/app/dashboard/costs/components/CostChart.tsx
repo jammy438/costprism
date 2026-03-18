@@ -4,7 +4,7 @@ import { useSpendOverTime } from '@/lib/hooks/useSpendOverTime'
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts'
 
 const CostsChart = () => {
-  const { data, isLoading, isError } = useSpendOverTime()
+  const { data, isLoading, isError } = useSpendOverTime('2026-01-01', '2026-03-01', 'week')
 
   if (isLoading) return (
     <div style={{
