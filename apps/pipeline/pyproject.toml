@@ -18,7 +18,7 @@ google-cloud-bigquery = "^3.17"      # GCP BigQuery
 google-cloud-storage = "^2.16"       # GCP Cloud Storage
 
 # Data processing
-pyarrow = "^15.0"                    # Reading Parquet CUR files
+pyarrow = "^19.0"                    # Reading Parquet CUR files
 pandas = "^2.2"                      # DataFrame transforms
 pydantic = "^2.6"                    # Schema validation (FocusCostRow etc.)
 
@@ -28,7 +28,7 @@ uvicorn = {extras = ["standard"], version = "^0.29"}  # ASGI server to run FastA
 httpx = "^0.27"                      # HTTP client (calling Sarah's webhook endpoint)
 
 # Database
-asyncpg = "^0.29"                    # Async Postgres driver
+asyncpg = "^0.30"                    # Async Postgres driver
 sqlalchemy = "^2.0"                  # ORM / query builder on top of asyncpg
 
 # Redis
@@ -36,6 +36,7 @@ redis = "^5.0"                       # Anomaly queue, pipeline status, pricing c
 
 # Encryption
 cryptography = "^42.0"               # For decrypt_config() in utils/encryption.py
+python-dotenv = "^1.0"               # Load .env files into environment variables
 
 [tool.poetry.group.dev.dependencies]
 # Testing
