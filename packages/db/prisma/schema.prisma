@@ -1,0 +1,328 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  MEMBER
+  VIEWER
+}
+
+enum OrgTier {
+  FREE
+  STARTER
+  GROWTH
+  ENTERPRISE
+}
+
+enum ConnectorType {
+  AWS_CUR
+  GCP_BILLING
+  AZURE_COST
+  DATADOG
+  STRIPE
+  CUSTOM
+}
+
+enum SyncStatus {
+  IDLE
+  QUEUED
+  RUNNING
+  COMPLETE
+  ERROR
+}
+
+enum ConnectorStatus {
+  ACTIVE
+  INACTIVE
+  ERROR
+}
+
+enum BudgetPeriod {
+  MONTHLY
+  QUARTERLY
+  ANNUAL
+}
+
+enum BudgetScopeType {
+  ORG
+  TEAM
+  SERVICE
+  ACCOUNT
+  ENVIRONMENT
+}
+
+enum AlertChannel {
+  EMAIL
+  SLACK
+}
+
+enum PolicyType {
+  BUDGET_GUARDRAIL
+  TAGGING_REQUIRED
+  DRIFT_DETECTION
+  SPEND_ANOMALY
+}
+
+enum PolicySeverity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum NotificationType {
+  BUDGET_ALERT
+  ANOMALY_DETECTED
+  SYNC_COMPLETE
+  SYNC_FAILED
+  POLICY_VIOLATION
+  INVITE_ACCEPTED
+  SYSTEM
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  TRIALING
+  PAST_DUE
+  CANCELED
+  INCOMPLETE
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  EXPIRED
+  REVOKED
+}
+
+model Organisation {
+  id               String    @id @default(uuid())
+  clerkOrgId       String    @unique @map("clerk_org_id")
+  name             String
+  slug             String    @unique
+  tier             OrgTier   @default(FREE)
+  displayCurrency  String    @default("GBP") @map("display_currency")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+
+  users                   User[]
+  invitations             Invitation[]
+  onboardingProgress      OnboardingProgress[]
+  connectors              Connector[]
+  budgets                 Budget[]
+  governancePolicies      GovernancePolicy[]
+  notifications           Notification[]
+  reportShares            ReportShare[]
+  auditLogs               AuditLog[]
+  subscription            Subscription?
+  notificationPreferences NotificationPreference[]
+
+  @@map("organisations")
+}
+
+model User {
+  id          String    @id @default(uuid())
+  clerkUserId String    @unique @map("clerk_user_id")
+  orgId       String    @map("org_id")
+  role        UserRole  @default(MEMBER)
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  org                     Organisation              @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  notificationPreferences NotificationPreference[]
+  notifications           Notification[]
+  auditLogs               AuditLog[]
+
+  @@index([orgId])
+  @@map("users")
+}
+
+model Invitation {
+  id         String           @id @default(uuid())
+  orgId      String           @map("org_id")
+  email      String
+  role       UserRole         @default(MEMBER)
+  token      String           @unique
+  status     InvitationStatus @default(PENDING)
+  expiresAt  DateTime         @map("expires_at")
+  acceptedAt DateTime?        @map("accepted_at")
+  createdAt  DateTime         @default(now()) @map("created_at")
+
+  org Organisation @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  @@index([orgId])
+  @@index([token])
+  @@map("invitations")
+}
+
+model OnboardingProgress {
+  id          String    @id @default(uuid())
+  orgId       String    @map("org_id")
+  step        Int
+  completedAt DateTime? @map("completed_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  org Organisation @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  @@unique([orgId, step])
+  @@index([orgId])
+  @@map("onboarding_progress")
+}
+
+model Connector {
+  id              String          @id @default(uuid())
+  orgId           String          @map("org_id")
+  type            ConnectorType
+  name            String
+  configEncrypted String          @map("config_encrypted")
+  status          ConnectorStatus @default(ACTIVE)
+
+  syncStatus       SyncStatus @default(IDLE) @map("sync_status")
+  lastSyncedAt     DateTime?                  @map("last_synced_at")
+  lastSyncRowCount Int?                       @map("last_sync_row_count")
+  lastErrorMessage String?                    @map("last_error_message")
+  syncStartedAt    DateTime?                  @map("sync_started_at")
+  syncCompletedAt  DateTime?                  @map("sync_completed_at")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  org Organisation @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  @@index([orgId])
+  @@index([orgId, type])
+  @@map("connectors")
+}
+
+model Budget {
+  id                String          @id @default(uuid())
+  orgId             String          @map("org_id")
+  name              String
+  scopeType         BudgetScopeType @map("scope_type")
+  scopeValue        String?         @map("scope_value")
+  amount            Decimal         @db.Decimal(12, 2)
+  currency          String          @default("GBP")
+  period            BudgetPeriod    @default(MONTHLY)
+  alertThreshold70  Boolean         @default(true) @map("alert_threshold_70")
+  alertThreshold90  Boolean         @default(true) @map("alert_threshold_90")
+  alertThreshold100 Boolean         @default(true) @map("alert_threshold_100")
+  alertChannels     AlertChannel[]  @map("alert_channels")
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
+
+  org Organisation @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  @@index([orgId])
+  @@map("budgets")
+}
+
+model GovernancePolicy {
+  id          String         @id @default(uuid())
+  orgId       String         @map("org_id")
+  name        String
+  description String?
+  type        PolicyType
+  severity    PolicySeverity @default(MEDIUM)
+  config      Json
+  enabled     Boolean        @default(true)
+  createdAt   DateTime       @default(now()) @map("created_at")
+  updatedAt   DateTime       @updatedAt @map("updated_at")
+
+  org Organisation @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  @@index([orgId])
+  @@index([orgId, type])
+  @@map("governance_policies")
+}
+
+model NotificationPreference {
+  id           String   @id @default(uuid())
+  orgId        String   @map("org_id")
+  userId       String   @map("user_id")
+  emailAlerts  Boolean  @default(true) @map("email_alerts")
+  slackAlerts  Boolean  @default(false) @map("slack_alerts")
+  weeklyDigest Boolean  @default(true) @map("weekly_digest")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  org  Organisation @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  user User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([orgId, userId])
+  @@map("notification_preferences")
+}
+
+model Notification {
+  id        String           @id @default(uuid())
+  orgId     String           @map("org_id")
+  userId    String?          @map("user_id")
+  type      NotificationType
+  title     String
+  body      String
+  linkUrl   String?          @map("link_url")
+  readAt    DateTime?        @map("read_at")
+  createdAt DateTime         @default(now()) @map("created_at")
+
+  org  Organisation @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  user User?        @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([orgId, readAt])
+  @@index([userId])
+  @@map("notifications")
+}
+
+model ReportShare {
+  id           String    @id @default(uuid())
+  orgId        String    @map("org_id")
+  reportType   String    @map("report_type")
+  token        String    @unique
+  passwordHash String?   @map("password_hash")
+  expiresAt    DateTime? @map("expires_at")
+  viewCount    Int       @default(0) @map("view_count")
+  createdAt    DateTime  @default(now()) @map("created_at")
+
+  org Organisation @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  @@index([token])
+  @@map("report_shares")
+}
+
+model AuditLog {
+  id           String   @id @default(uuid())
+  orgId        String   @map("org_id")
+  userId       String?  @map("user_id")
+  action       String
+  resourceType String   @map("resource_type")
+  resourceId   String?  @map("resource_id")
+  metadata     Json?
+  ts           DateTime @default(now())
+
+  org  Organisation @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  user User?        @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([orgId, ts])
+  @@index([orgId, resourceType])
+  @@map("audit_logs")
+}
+
+model Subscription {
+  id                   String             @id @default(uuid())
+  orgId                String             @unique @map("org_id")
+  tier                 OrgTier            @default(FREE)
+  stripeSubscriptionId String?            @unique @map("stripe_subscription_id")
+  stripeCustomerId     String?            @map("stripe_customer_id")
+  status               SubscriptionStatus @default(TRIALING)
+  trialEndsAt          DateTime?          @map("trial_ends_at")
+  currentPeriodEnd     DateTime?          @map("current_period_end")
+  updatedAt            DateTime           @updatedAt @map("updated_at")
+
+  org Organisation @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  @@index([stripeCustomerId])
+  @@map("subscriptions")
+}
