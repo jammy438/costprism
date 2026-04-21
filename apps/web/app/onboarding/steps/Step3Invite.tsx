@@ -56,10 +56,10 @@ const Step3Invite = ({ onComplete, onSkip, onBack }: Step3Props) => {
 
   return (
     <div>
-      <h2 style={{ fontSize: '22px', fontWeight: 700, color: 'var(--cp-text)', marginBottom: '8px' }}>
+      <h2 style={{ fontSize: '22px', fontWeight: 700, color: 'var(--colour-text-primary)', marginBottom: '8px' }}>
         Invite your team
       </h2>
-      <p style={{ fontSize: '14px', color: 'var(--cp-text-muted)', marginBottom: '24px', lineHeight: 1.6 }}>
+      <p style={{ fontSize: '14px', color: 'var(--colour-text-secondary)', marginBottom: '24px', lineHeight: 1.6 }}>
         Add teammates who should have access. You can always invite more later.
       </p>
 
@@ -74,10 +74,10 @@ const Step3Invite = ({ onComplete, onSkip, onBack }: Step3Props) => {
               style={{
                 flex: 1,
                 padding: '10px 14px',
-                background: 'var(--cp-bg)',
-                border: '1px solid var(--cp-border)',
+                background: 'var(--colour-bg-page)',
+                border: '1px solid var(--colour-border)',
                 borderRadius: '8px',
-                color: 'var(--cp-text)',
+                color: 'var(--colour-text-primary)',
                 fontSize: '13px',
                 outline: 'none',
               }}
@@ -87,10 +87,10 @@ const Step3Invite = ({ onComplete, onSkip, onBack }: Step3Props) => {
               onChange={(e) => updateInvite(i, 'role', e.target.value)}
               style={{
                 padding: '10px 12px',
-                background: 'var(--cp-bg)',
-                border: '1px solid var(--cp-border)',
+                background: 'var(--colour-bg-page)',
+                border: '1px solid var(--colour-border)',
                 borderRadius: '8px',
-                color: 'var(--cp-text)',
+                color: 'var(--colour-text-primary)',
                 fontSize: '13px',
                 outline: 'none',
                 cursor: 'pointer',
@@ -104,7 +104,7 @@ const Step3Invite = ({ onComplete, onSkip, onBack }: Step3Props) => {
                 style={{
                   background: 'none',
                   border: 'none',
-                  color: 'var(--cp-text-muted)',
+                  color: 'var(--colour-text-secondary)',
                   cursor: 'pointer',
                   fontSize: '16px',
                   padding: '0 4px',
@@ -123,7 +123,7 @@ const Step3Invite = ({ onComplete, onSkip, onBack }: Step3Props) => {
           style={{
             background: 'none',
             border: 'none',
-            color: 'var(--cp-accent)',
+            color: 'var(--colour-blue)',
             fontSize: '13px',
             cursor: 'pointer',
             padding: 0,
@@ -143,10 +143,10 @@ const Step3Invite = ({ onComplete, onSkip, onBack }: Step3Props) => {
           onClick={onBack}
           style={{
             padding: '11px 20px',
-            background: 'var(--cp-bg)',
-            border: '1px solid var(--cp-border)',
+            background: 'var(--colour-bg-page)',
+            border: '1px solid var(--colour-border)',
             borderRadius: '8px',
-            color: 'var(--cp-text)',
+            color: 'var(--colour-text-primary)',
             fontSize: '13px',
             cursor: 'pointer',
           }}
@@ -157,10 +157,10 @@ const Step3Invite = ({ onComplete, onSkip, onBack }: Step3Props) => {
           onClick={onSkip}
           style={{
             padding: '11px 20px',
-            background: 'var(--cp-bg)',
-            border: '1px solid var(--cp-border)',
+            background: 'var(--colour-bg-page)',
+            border: '1px solid var(--colour-border)',
             borderRadius: '8px',
-            color: 'var(--cp-text-muted)',
+            color: 'var(--colour-text-secondary)',
             fontSize: '13px',
             cursor: 'pointer',
           }}
@@ -173,10 +173,10 @@ const Step3Invite = ({ onComplete, onSkip, onBack }: Step3Props) => {
           style={{
             flex: 1,
             padding: '11px',
-            background: hasValid && !loading ? 'var(--cp-accent)' : 'var(--cp-border)',
+            background: hasValid && !loading ? 'var(--colour-blue)' : 'var(--colour-border)',
             border: 'none',
             borderRadius: '8px',
-            color: hasValid && !loading ? '#fff' : 'var(--cp-text-muted)',
+            color: hasValid && !loading ? '#fff' : 'var(--colour-text-secondary)',
             fontSize: '13px',
             fontWeight: 600,
             cursor: hasValid && !loading ? 'pointer' : 'not-allowed',

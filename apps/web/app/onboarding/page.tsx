@@ -44,7 +44,7 @@ const OnboardingPage = () => {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'var(--cp-bg)',
+      background: 'var(--colour-bg-page)',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -56,7 +56,7 @@ const OnboardingPage = () => {
         marginBottom: '40px',
         fontSize: '20px',
         fontWeight: 700,
-        color: 'var(--cp-accent)',
+        color: 'var(--colour-blue)',
         letterSpacing: '-0.5px',
       }}>
         CostPrism
@@ -87,23 +87,23 @@ const OnboardingPage = () => {
                 fontSize: '13px',
                 fontWeight: 600,
                 background: currentStep === step.number
-                  ? 'var(--cp-accent)'
+                  ? 'var(--colour-blue)'
                   : currentStep > step.number
-                  ? 'var(--cp-accent)'
-                  : 'var(--cp-surface)',
-                color: currentStep >= step.number ? '#fff' : 'var(--cp-text-muted)',
+                  ? 'var(--colour-blue)'
+                  : 'var(--colour-bg-card)',
+                color: currentStep >= step.number ? '#fff' : 'var(--colour-text-secondary)',
                 border: currentStep === step.number
-                  ? '2px solid var(--cp-accent)'
+                  ? '2px solid var(--colour-blue)'
                   : currentStep > step.number
-                  ? '2px solid var(--cp-accent)'
-                  : '2px solid var(--cp-border)',
+                  ? '2px solid var(--colour-blue)'
+                  : '2px solid var(--colour-border)',
                 transition: 'all 0.2s ease',
               }}>
                 {currentStep > step.number ? '✓' : step.number}
               </div>
               <span style={{
                 fontSize: '11px',
-                color: currentStep === step.number ? 'var(--cp-accent)' : 'var(--cp-text-muted)',
+                color: currentStep === step.number ? 'var(--colour-blue)' : 'var(--colour-text-secondary)',
                 fontWeight: currentStep === step.number ? 600 : 400,
               }}>
                 {step.label}
@@ -113,7 +113,7 @@ const OnboardingPage = () => {
               <div style={{
                 width: '60px',
                 height: '2px',
-                background: currentStep > step.number ? 'var(--cp-accent)' : 'var(--cp-border)',
+                background: currentStep > step.number ? 'var(--colour-blue)' : 'var(--colour-border)',
                 marginBottom: '20px',
                 transition: 'background 0.2s ease',
               }} />
@@ -126,8 +126,8 @@ const OnboardingPage = () => {
       <div style={{
         width: '100%',
         maxWidth: '560px',
-        background: 'var(--cp-surface)',
-        border: '1px solid var(--cp-border)',
+        background: 'var(--colour-bg-card)',
+        border: '1px solid var(--colour-border)',
         borderRadius: '16px',
         padding: '40px',
       }}>

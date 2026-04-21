@@ -49,10 +49,10 @@ const Step4Budget = ({ onComplete, onSkip, onBack }: Step4Props) => {
 
   return (
     <div>
-      <h2 style={{ fontSize: '22px', fontWeight: 700, color: 'var(--cp-text)', marginBottom: '8px' }}>
+      <h2 style={{ fontSize: '22px', fontWeight: 700, color: 'var(--colour-text-primary)', marginBottom: '8px' }}>
         Set your first budget
       </h2>
-      <p style={{ fontSize: '14px', color: 'var(--cp-text-muted)', marginBottom: '32px', lineHeight: 1.6 }}>
+      <p style={{ fontSize: '14px', color: 'var(--colour-text-secondary)', marginBottom: '32px', lineHeight: 1.6 }}>
         Set a monthly cloud spend limit for your whole organisation. You'll get alerts at 70%, 90%, and 100%.
       </p>
 
@@ -61,7 +61,7 @@ const Step4Budget = ({ onComplete, onSkip, onBack }: Step4Props) => {
           display: 'block',
           fontSize: '13px',
           fontWeight: 500,
-          color: 'var(--cp-text)',
+          color: 'var(--colour-text-primary)',
           marginBottom: '8px',
         }}>
           Monthly budget
@@ -72,10 +72,10 @@ const Step4Budget = ({ onComplete, onSkip, onBack }: Step4Props) => {
             onChange={(e) => setCurrency(e.target.value)}
             style={{
               padding: '10px 12px',
-              background: 'var(--cp-bg)',
-              border: '1px solid var(--cp-border)',
+              background: 'var(--colour-bg-page)',
+              border: '1px solid var(--colour-border)',
               borderRadius: '8px',
-              color: 'var(--cp-text)',
+              color: 'var(--colour-text-primary)',
               fontSize: '14px',
               outline: 'none',
               cursor: 'pointer',
@@ -92,10 +92,10 @@ const Step4Budget = ({ onComplete, onSkip, onBack }: Step4Props) => {
             style={{
               flex: 1,
               padding: '10px 14px',
-              background: 'var(--cp-bg)',
-              border: '1px solid var(--cp-border)',
+              background: 'var(--colour-bg-page)',
+              border: '1px solid var(--colour-border)',
               borderRadius: '8px',
-              color: 'var(--cp-text)',
+              color: 'var(--colour-text-primary)',
               fontSize: '14px',
               outline: 'none',
             }}
@@ -105,13 +105,13 @@ const Step4Budget = ({ onComplete, onSkip, onBack }: Step4Props) => {
 
       <div style={{
         padding: '14px 16px',
-        background: 'var(--cp-bg)',
-        border: '1px solid var(--cp-border)',
+        background: 'var(--colour-bg-page)',
+        border: '1px solid var(--colour-border)',
         borderRadius: '8px',
         marginBottom: '32px',
       }}>
-        <p style={{ fontSize: '12px', color: 'var(--cp-text-muted)', margin: 0, lineHeight: 1.6 }}>
-          You'll receive email alerts when your spend reaches <strong style={{ color: 'var(--cp-text)' }}>70%</strong>, <strong style={{ color: 'var(--cp-text)' }}>90%</strong>, and <strong style={{ color: 'var(--cp-text)' }}>100%</strong> of this budget. You can adjust thresholds and add Slack alerts later.
+        <p style={{ fontSize: '12px', color: 'var(--colour-text-secondary)', margin: 0, lineHeight: 1.6 }}>
+          You'll receive email alerts when your spend reaches <strong style={{ color: 'var(--colour-text-primary)' }}>70%</strong>, <strong style={{ color: 'var(--colour-text-primary)' }}>90%</strong>, and <strong style={{ color: 'var(--colour-text-primary)' }}>100%</strong> of this budget. You can adjust thresholds and add Slack alerts later.
         </p>
       </div>
 
@@ -124,10 +124,10 @@ const Step4Budget = ({ onComplete, onSkip, onBack }: Step4Props) => {
           onClick={onBack}
           style={{
             padding: '11px 20px',
-            background: 'var(--cp-bg)',
-            border: '1px solid var(--cp-border)',
+            background: 'var(--colour-bg-page)',
+            border: '1px solid var(--colour-border)',
             borderRadius: '8px',
-            color: 'var(--cp-text)',
+            color: 'var(--colour-text-primary)',
             fontSize: '13px',
             cursor: 'pointer',
           }}
@@ -138,10 +138,10 @@ const Step4Budget = ({ onComplete, onSkip, onBack }: Step4Props) => {
           onClick={onSkip}
           style={{
             padding: '11px 20px',
-            background: 'var(--cp-bg)',
-            border: '1px solid var(--cp-border)',
+            background: 'var(--colour-bg-page)',
+            border: '1px solid var(--colour-border)',
             borderRadius: '8px',
-            color: 'var(--cp-text-muted)',
+            color: 'var(--colour-text-secondary)',
             fontSize: '13px',
             cursor: 'pointer',
           }}
@@ -154,10 +154,10 @@ const Step4Budget = ({ onComplete, onSkip, onBack }: Step4Props) => {
           style={{
             flex: 1,
             padding: '11px',
-            background: isValid && !loading ? 'var(--cp-accent)' : 'var(--cp-border)',
+            background: isValid && !loading ? 'var(--colour-blue)' : 'var(--colour-border)',
             border: 'none',
             borderRadius: '8px',
-            color: isValid && !loading ? '#fff' : 'var(--cp-text-muted)',
+            color: isValid && !loading ? '#fff' : 'var(--colour-text-secondary)',
             fontSize: '13px',
             fontWeight: 600,
             cursor: isValid && !loading ? 'pointer' : 'not-allowed',

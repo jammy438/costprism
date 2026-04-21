@@ -37,7 +37,7 @@ const Step5Ready = ({ connectorConnected }: Step5Props) => {
       <h2 style={{
         fontSize: '22px',
         fontWeight: 700,
-        color: 'var(--cp-text)',
+        color: 'var(--colour-text-primary)',
         marginBottom: '10px',
         letterSpacing: '-0.4px',
       }}>
@@ -46,7 +46,7 @@ const Step5Ready = ({ connectorConnected }: Step5Props) => {
 
       <p style={{
         fontSize: '14px',
-        color: 'var(--cp-text-muted)',
+        color: 'var(--colour-text-secondary)',
         marginBottom: '32px',
         lineHeight: 1.6,
         maxWidth: '360px',
@@ -64,12 +64,12 @@ const Step5Ready = ({ connectorConnected }: Step5Props) => {
           justifyContent: 'center',
           gap: '8px',
           padding: '12px 20px',
-          background: 'var(--cp-bg)',
-          border: '1px solid var(--cp-border)',
+          background: 'var(--colour-bg-page)',
+          border: '1px solid var(--colour-border)',
           borderRadius: '8px',
           marginBottom: '24px',
           fontSize: '13px',
-          color: 'var(--cp-text-muted)',
+          color: 'var(--colour-text-secondary)',
         }}>
           <span style={{
             width: '8px',
@@ -83,7 +83,7 @@ const Step5Ready = ({ connectorConnected }: Step5Props) => {
         </div>
       )}
 
-      <p style={{ fontSize: '12px', color: 'var(--cp-text-muted)', marginBottom: '20px' }}>
+      <p style={{ fontSize: '12px', color: 'var(--colour-text-secondary)', marginBottom: '20px' }}>
         Redirecting to dashboard in a moment...
       </p>
 
@@ -91,7 +91,7 @@ const Step5Ready = ({ connectorConnected }: Step5Props) => {
         onClick={() => router.push('/dashboard')}
         style={{
           padding: '12px 32px',
-          background: 'var(--cp-accent)',
+          background: 'var(--colour-blue)',
           border: 'none',
           borderRadius: '8px',
           color: '#fff',

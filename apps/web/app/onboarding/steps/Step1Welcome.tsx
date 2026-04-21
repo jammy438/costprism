@@ -55,7 +55,7 @@ const Step1Welcome = ({ onComplete }: Step1Props) => {
       <h1 style={{
         fontSize: '22px',
         fontWeight: 700,
-        color: 'var(--cp-text)',
+        color: 'var(--colour-text-primary)',
         marginBottom: '8px',
         letterSpacing: '-0.4px',
       }}>
@@ -63,7 +63,7 @@ const Step1Welcome = ({ onComplete }: Step1Props) => {
       </h1>
       <p style={{
         fontSize: '14px',
-        color: 'var(--cp-text-muted)',
+        color: 'var(--colour-text-secondary)',
         marginBottom: '32px',
         lineHeight: 1.6,
       }}>
@@ -76,7 +76,7 @@ const Step1Welcome = ({ onComplete }: Step1Props) => {
           display: 'block',
           fontSize: '13px',
           fontWeight: 500,
-          color: 'var(--cp-text)',
+          color: 'var(--colour-text-primary)',
           marginBottom: '8px',
         }}>
           Organisation name
@@ -90,10 +90,10 @@ const Step1Welcome = ({ onComplete }: Step1Props) => {
           style={{
             width: '100%',
             padding: '10px 14px',
-            background: 'var(--cp-bg)',
-            border: '1px solid var(--cp-border)',
+            background: 'var(--colour-bg-page)',
+            border: '1px solid var(--colour-border)',
             borderRadius: '8px',
-            color: 'var(--cp-text)',
+            color: 'var(--colour-text-primary)',
             fontSize: '14px',
             outline: 'none',
             boxSizing: 'border-box',
@@ -107,7 +107,7 @@ const Step1Welcome = ({ onComplete }: Step1Props) => {
           display: 'block',
           fontSize: '13px',
           fontWeight: 500,
-          color: 'var(--cp-text)',
+          color: 'var(--colour-text-primary)',
           marginBottom: '8px',
         }}>
           Industry
@@ -118,10 +118,10 @@ const Step1Welcome = ({ onComplete }: Step1Props) => {
           style={{
             width: '100%',
             padding: '10px 14px',
-            background: 'var(--cp-bg)',
-            border: '1px solid var(--cp-border)',
+            background: 'var(--colour-bg-page)',
+            border: '1px solid var(--colour-border)',
             borderRadius: '8px',
-            color: industry ? 'var(--cp-text)' : 'var(--cp-text-muted)',
+            color: industry ? 'var(--colour-text-primary)' : 'var(--colour-text-secondary)',
             fontSize: '14px',
             outline: 'none',
             boxSizing: 'border-box',
@@ -141,7 +141,7 @@ const Step1Welcome = ({ onComplete }: Step1Props) => {
           display: 'block',
           fontSize: '13px',
           fontWeight: 500,
-          color: 'var(--cp-text)',
+          color: 'var(--colour-text-primary)',
           marginBottom: '8px',
         }}>
           Annual cloud spend
@@ -153,11 +153,11 @@ const Step1Welcome = ({ onComplete }: Step1Props) => {
               onClick={() => setSpendRange(range.value)}
               style={{
                 padding: '12px 16px',
-                border: `1px solid ${spendRange === range.value ? 'var(--cp-accent)' : 'var(--cp-border)'}`,
+                border: `1px solid ${spendRange === range.value ? 'var(--colour-blue)' : 'var(--colour-border)'}`,
                 borderRadius: '8px',
                 cursor: 'pointer',
-                background: spendRange === range.value ? 'rgba(99,102,241,0.08)' : 'var(--cp-bg)',
-                color: spendRange === range.value ? 'var(--cp-accent)' : 'var(--cp-text)',
+                background: spendRange === range.value ? 'rgba(99,102,241,0.08)' : 'var(--colour-bg-page)',
+                color: spendRange === range.value ? 'var(--colour-blue)' : 'var(--colour-text-primary)',
                 fontSize: '14px',
                 fontWeight: spendRange === range.value ? 500 : 400,
                 transition: 'all 0.15s ease',
@@ -179,8 +179,8 @@ const Step1Welcome = ({ onComplete }: Step1Props) => {
         style={{
           width: '100%',
           padding: '12px',
-          background: isValid && !loading ? 'var(--cp-accent)' : 'var(--cp-border)',
-          color: isValid && !loading ? '#fff' : 'var(--cp-text-muted)',
+          background: isValid && !loading ? 'var(--colour-blue)' : 'var(--colour-border)',
+          color: isValid && !loading ? '#fff' : 'var(--colour-text-secondary)',
           border: 'none',
           borderRadius: '8px',
           fontSize: '14px',

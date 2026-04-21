@@ -79,7 +79,7 @@ const Step2Connector = ({ onComplete, onBack }: Step2Props) => {
           style={{
             background: 'none',
             border: 'none',
-            color: 'var(--cp-text-muted)',
+            color: 'var(--colour-text-secondary)',
             fontSize: '13px',
             cursor: 'pointer',
             marginBottom: '20px',
@@ -89,10 +89,10 @@ const Step2Connector = ({ onComplete, onBack }: Step2Props) => {
           ← Back to connectors
         </button>
 
-        <h2 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--cp-text)', marginBottom: '6px' }}>
+        <h2 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--colour-text-primary)', marginBottom: '6px' }}>
           Connect AWS
         </h2>
-        <p style={{ fontSize: '13px', color: 'var(--cp-text-muted)', marginBottom: '24px', lineHeight: 1.6 }}>
+        <p style={{ fontSize: '13px', color: 'var(--colour-text-secondary)', marginBottom: '24px', lineHeight: 1.6 }}>
           We'll read your Cost & Usage Report via an IAM Role — we never store your AWS credentials directly.
         </p>
 
@@ -104,7 +104,7 @@ const Step2Connector = ({ onComplete, onBack }: Step2Props) => {
             { label: 'CUR prefix (optional)', value: awsPrefix, set: setAwsPrefix, placeholder: 'cur/reports/' },
           ].map(({ label, value, set, placeholder }) => (
             <div key={label}>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: 'var(--cp-text)', marginBottom: '6px' }}>
+              <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: 'var(--colour-text-primary)', marginBottom: '6px' }}>
                 {label}
               </label>
               <input
@@ -115,10 +115,10 @@ const Step2Connector = ({ onComplete, onBack }: Step2Props) => {
                 style={{
                   width: '100%',
                   padding: '10px 14px',
-                  background: 'var(--cp-bg)',
-                  border: '1px solid var(--cp-border)',
+                  background: 'var(--colour-bg-page)',
+                  border: '1px solid var(--colour-border)',
                   borderRadius: '8px',
-                  color: 'var(--cp-text)',
+                  color: 'var(--colour-text-primary)',
                   fontSize: '13px',
                   outline: 'none',
                   boxSizing: 'border-box',
@@ -164,10 +164,10 @@ const Step2Connector = ({ onComplete, onBack }: Step2Props) => {
               style={{
                 flex: 1,
                 padding: '11px',
-                background: 'var(--cp-bg)',
-                border: '1px solid var(--cp-border)',
+                background: 'var(--colour-bg-page)',
+                border: '1px solid var(--colour-border)',
                 borderRadius: '8px',
-                color: 'var(--cp-text)',
+                color: 'var(--colour-text-primary)',
                 fontSize: '13px',
                 fontWeight: 500,
                 cursor: 'pointer',
@@ -182,10 +182,10 @@ const Step2Connector = ({ onComplete, onBack }: Step2Props) => {
             style={{
               flex: 1,
               padding: '11px',
-              background: awsTestResult === 'success' ? 'var(--cp-accent)' : 'var(--cp-border)',
+              background: awsTestResult === 'success' ? 'var(--colour-blue)' : 'var(--colour-border)',
               border: 'none',
               borderRadius: '8px',
-              color: awsTestResult === 'success' ? '#fff' : 'var(--cp-text-muted)',
+              color: awsTestResult === 'success' ? '#fff' : 'var(--colour-text-secondary)',
               fontSize: '13px',
               fontWeight: 600,
               cursor: awsTestResult === 'success' ? 'pointer' : 'not-allowed',
@@ -200,10 +200,10 @@ const Step2Connector = ({ onComplete, onBack }: Step2Props) => {
 
   return (
     <div>
-      <h2 style={{ fontSize: '22px', fontWeight: 700, color: 'var(--cp-text)', marginBottom: '8px' }}>
+      <h2 style={{ fontSize: '22px', fontWeight: 700, color: 'var(--colour-text-primary)', marginBottom: '8px' }}>
         Connect your first data source
       </h2>
-      <p style={{ fontSize: '14px', color: 'var(--cp-text-muted)', marginBottom: '24px', lineHeight: 1.6 }}>
+      <p style={{ fontSize: '14px', color: 'var(--colour-text-secondary)', marginBottom: '24px', lineHeight: 1.6 }}>
         Connect at least one cloud account to start seeing your costs.
       </p>
 
@@ -228,11 +228,11 @@ const Step2Connector = ({ onComplete, onBack }: Step2Props) => {
             onClick={() => handleConnectorClick(connector.id, connector.available)}
             style={{
               padding: '16px',
-              border: `1px solid ${selected === connector.id ? 'var(--cp-accent)' : 'var(--cp-border)'}`,
+              border: `1px solid ${selected === connector.id ? 'var(--colour-blue)' : 'var(--colour-border)'}`,
               borderRadius: '10px',
               cursor: connector.available ? 'pointer' : 'not-allowed',
               opacity: connector.available ? 1 : 0.45,
-              background: selected === connector.id ? 'rgba(99,102,241,0.06)' : 'var(--cp-bg)',
+              background: selected === connector.id ? 'rgba(99,102,241,0.06)' : 'var(--colour-bg-page)',
               display: 'flex',
               alignItems: 'center',
               gap: '14px',
@@ -241,17 +241,17 @@ const Step2Connector = ({ onComplete, onBack }: Step2Props) => {
           >
             <span style={{ fontSize: '24px' }}>{connector.icon}</span>
             <div style={{ flex: 1 }}>
-              <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--cp-text)' }}>{connector.name}</div>
-              <div style={{ fontSize: '12px', color: 'var(--cp-text-muted)' }}>{connector.description}</div>
+              <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--colour-text-primary)' }}>{connector.name}</div>
+              <div style={{ fontSize: '12px', color: 'var(--colour-text-secondary)' }}>{connector.description}</div>
             </div>
             {!connector.available && (
               <span style={{
                 fontSize: '11px',
                 padding: '3px 8px',
-                background: 'var(--cp-surface)',
-                border: '1px solid var(--cp-border)',
+                background: 'var(--colour-bg-card)',
+                border: '1px solid var(--colour-border)',
                 borderRadius: '20px',
-                color: 'var(--cp-text-muted)',
+                color: 'var(--colour-text-secondary)',
               }}>
                 Coming soon
               </span>
@@ -265,10 +265,10 @@ const Step2Connector = ({ onComplete, onBack }: Step2Props) => {
           onClick={onBack}
           style={{
             padding: '11px 20px',
-            background: 'var(--cp-bg)',
-            border: '1px solid var(--cp-border)',
+            background: 'var(--colour-bg-page)',
+            border: '1px solid var(--colour-border)',
             borderRadius: '8px',
-            color: 'var(--cp-text)',
+            color: 'var(--colour-text-primary)',
             fontSize: '13px',
             cursor: 'pointer',
           }}
@@ -281,10 +281,10 @@ const Step2Connector = ({ onComplete, onBack }: Step2Props) => {
           style={{
             flex: 1,
             padding: '11px',
-            background: awsConnected ? 'var(--cp-accent)' : 'var(--cp-border)',
+            background: awsConnected ? 'var(--colour-blue)' : 'var(--colour-border)',
             border: 'none',
             borderRadius: '8px',
-            color: awsConnected ? '#fff' : 'var(--cp-text-muted)',
+            color: awsConnected ? '#fff' : 'var(--colour-text-secondary)',
             fontSize: '13px',
             fontWeight: 600,
             cursor: awsConnected ? 'pointer' : 'not-allowed',
