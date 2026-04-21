@@ -3,7 +3,7 @@
 import { useSpendByTeam } from '@/lib/hooks/useSpendByTeam'
 
 const CostAttribution = () => {
-  const { data, isLoading, isError } = useSpendByTeam()
+  const { data, isLoading, isError } = useSpendByTeam('2026-01-01', '2026-03-01')
 
   if (isLoading) return (
     <div style={{
