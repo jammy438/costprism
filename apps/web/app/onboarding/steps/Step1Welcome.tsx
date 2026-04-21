@@ -37,7 +37,7 @@ const Step1Welcome = ({ onComplete }: Step1Props) => {
     setError('')
     try {
       const res = await fetch('/api/onboarding/org-profile', {
-        method: 'PATCH',
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ orgName: orgName.trim(), industry, spendRange }),
       })
