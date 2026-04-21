@@ -146,7 +146,7 @@ const Step1Welcome = ({ onComplete }: Step1Props) => {
         }}>
           Annual cloud spend
         </label>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <div style={{ display: 'flex', flexDirection: 'row', gap: '8px' }}>
           {SPEND_RANGES.map((range) => (
             <div
               key={range.value}
@@ -157,7 +157,7 @@ const Step1Welcome = ({ onComplete }: Step1Props) => {
                 borderRadius: '8px',
                 cursor: 'pointer',
                 background: spendRange === range.value ? 'rgba(99,102,241,0.08)' : 'var(--colour-bg-page)',
-                color: spendRange === range.value ? 'var(--colour-blue)' : 'var(--colour-text-primary)',
+                color: 'var(--colour-text-primary)',
                 fontSize: '14px',
                 fontWeight: spendRange === range.value ? 500 : 400,
                 transition: 'all 0.15s ease',
