@@ -7,7 +7,7 @@ import { useSpendByTeam } from '@/lib/hooks/useSpendByTeam'
 
 const PipelineFlow = () => {
   const { data: providers, isLoading: pLoading } = useSpendByProvider()
-  const { data: teams, isLoading: tLoading } = useSpendByTeam()
+  const { data: teams, isLoading: tLoading } = useSpendByTeam('2026-01-01', '2026-03-01')
   const [activeNode, setActiveNode] = useState<number | null>(null)
 
   if (pLoading || tLoading) return (

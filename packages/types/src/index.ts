@@ -18,9 +18,27 @@ export interface Connector {
 }
 
 export interface CostRow {
-  id: string;
-  connectorId: string;
-  amount: number;
-  currency: string;
-  date: string;
+  org_id: string
+  connector_id: string
+  ingested_at: string
+  data_format: string
+  charge_period_start: string
+  charge_period_end: string
+  charge_type: 'Usage' | 'Purchase' | 'Tax' | 'Credit' | 'Adjustment'
+  provider: string
+  service_name: string
+  region_name: string
+  net_amortised_cost: number
+  amortised_cost: number
+  billed_cost: number
+  original_currency: string
+  original_amount: number
+  display_currency: string
+  display_amount: number
+  exchange_rate: number
+  exchange_rate_date: string
+  resource_id: string | null
+  resource_name: string | null
+  tags: Record<string, string>
+  normalised_tags: Record<string, string>
 }
