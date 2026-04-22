@@ -1,26 +1,21 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { useOrganization } from '@clerk/nextjs'
 import { mockSpendByTeamResponse, SpendByTeamResponse } from '../mockData'
 
-export const useSpendByTeam = () => {
-  const { organization } = useOrganization()
-  const orgId = organization?.id
+export const useSpendByTeam = (from: string, to: string) => {
   const isMock = process.env.NEXT_PUBLIC_USE_MOCK_DATA === 'true'
 
   return useQuery({
-    queryKey: ['spendByTeam', orgId],
+    queryKey: ['spendByTeam', from, to],
     queryFn: isMock
       ? () => Promise.resolve(mockSpendByTeamResponse)
-      : () => fetchSpendByTeam(orgId!)
+      : () => fetchSpendByTeam(from, to),
   })
 }
 
-async function fetchSpendByTeam(orgId: string): Promise<SpendByTeamResponse[]> {
-  const response = await fetch(`/api/charts/spend-by-team?orgId=${orgId}`)
-  if (!response.ok) {
-    throw new Error('Network response was not ok')
-  }
+async function fetchSpendByTeam(from: string, to: string): Promise<SpendByTeamResponse[]> {
+  const response = await fetch(`/api/metrics/by-team?from=${from}&to=${to}`)
+  if (!response.ok) throw new Error('Network response was not ok')
   return response.json()
 }
