@@ -15,7 +15,7 @@ export async function GET(req: Request) {
   }
 
   const res = await internalFetch(
-    `/metrics/summary?org_id=${orgId}&from_date=${from}&to_date=${to}`
+    `/internal/metrics/summary?org_id=${orgId}&from_date=${from}&to_date=${to}`
   )
 
   if (!res.ok) {
@@ -23,5 +23,10 @@ export async function GET(req: Request) {
   }
 
   const data = await res.json()
-  return NextResponse.json(data)
+
+  // Map George's response to component expected shape
+  return NextResponse.json({
+    currentSpend: data.mtd_spend ?? data.total_spend ?? 0,
+    previousSpend: data.prior_month_spend ?? 0,
+  })
 }

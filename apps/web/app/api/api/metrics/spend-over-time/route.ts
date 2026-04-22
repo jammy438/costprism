@@ -15,24 +15,13 @@ export async function GET(req: Request) {
   }
 
   const res = await internalFetch(
-    `/internal/metrics/by-team?org_id=${orgId}&from_date=${from}&to_date=${to}`
+    `/internal/metrics/spend-over-time?org_id=${orgId}&from_date=${from}&to_date=${to}`
   )
 
   if (!res.ok) {
-    return NextResponse.json({ error: 'Failed to fetch spend by team' }, { status: res.status })
+    return NextResponse.json({ error: 'Failed to fetch spend over time' }, { status: res.status })
   }
 
   const data = await res.json()
-
-  // Map George's { rows: [{ team, net_amortised_cost, percent_of_total }] }
-  // to component expected [{ team, cost, percentage, sparklineData }]
-  const mapped = (data.rows ?? []).map((r: any) => ({
-    team: r.team,
-    cost: r.net_amortised_cost ?? 0,
-    net_amortised_cost: r.net_amortised_cost ?? 0,
-    percentage: r.percent_of_total ?? 0,
-    sparklineData: [],
-  }))
-
-  return NextResponse.json(mapped)
+  return NextResponse.json(data)
 }

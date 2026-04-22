@@ -15,7 +15,7 @@ export async function GET(req: Request) {
   }
 
   const res = await internalFetch(
-    `/metrics/spend-over-time?org_id=${orgId}&from_date=${from}&to_date=${to}`
+    `/internal/metrics/spend-over-time?org_id=${orgId}&from_date=${from}&to_date=${to}`
   )
 
   if (!res.ok) {
@@ -23,5 +23,13 @@ export async function GET(req: Request) {
   }
 
   const data = await res.json()
-  return NextResponse.json(data)
+
+  // Map George's { data_points: [{ date, net_amortised_cost }] }
+  // to component expected [{ date, spend }]
+  const mapped = (data.data_points ?? []).map((p: any) => ({
+    date: p.date,
+    spend: p.net_amortised_cost ?? 0,
+  }))
+
+  return NextResponse.json(mapped)
 }

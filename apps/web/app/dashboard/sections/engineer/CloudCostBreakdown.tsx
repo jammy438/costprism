@@ -1,9 +1,8 @@
 'use client'
-
 import { useSpendByService } from '@/lib/hooks/useSpendByService'
 
 const CloudCostBreakdown = () => {
-  const { data, isLoading, isError } = useSpendByService('2026-01-01', '2026-03-01', 10)
+  const { data, isLoading, isError } = useSpendByService('2026-01-01', '2026-03-01')
 
   if (isLoading) return (
     <div style={{
@@ -27,6 +26,8 @@ const CloudCostBreakdown = () => {
     }}>Failed to load</div>
   )
 
+  const rows = Array.isArray(data) ? data : []
+
   return (
     <div style={{
       backgroundColor: 'var(--colour-bg-card)',
@@ -44,7 +45,6 @@ const CloudCostBreakdown = () => {
       }}>
         Cloud Cost Breakdown
       </div>
-
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead>
           <tr>
@@ -61,9 +61,9 @@ const CloudCostBreakdown = () => {
           </tr>
         </thead>
         <tbody>
-          {data?.map((s, i) => (
+          {rows.map((s: any, i: number) => (
             <tr key={s.service} style={{
-              borderBottom: i < data.length - 1 ? '1px solid var(--colour-border)' : 'none',
+              borderBottom: i < rows.length - 1 ? '1px solid var(--colour-border)' : 'none',
             }}>
               <td style={{
                 padding: '10px 0',
@@ -74,12 +74,12 @@ const CloudCostBreakdown = () => {
                 padding: '10px 0',
                 fontSize: '13px',
                 color: 'var(--colour-text-secondary)',
-              }}>£{s.cost.toLocaleString()}</td>
+              }}>{'\u00a3'}{(s.cost ?? 0).toLocaleString()}</td>
               <td style={{
                 padding: '10px 0',
                 fontSize: '13px',
                 color: 'var(--colour-text-muted)',
-              }}>—</td>
+              }}>{'\u2014'}</td>
             </tr>
           ))}
         </tbody>

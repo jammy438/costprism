@@ -1,5 +1,4 @@
 'use client'
-
 import { useSpendByTeam } from '@/lib/hooks/useSpendByTeam'
 
 const CostAttribution = () => {
@@ -27,9 +26,9 @@ const CostAttribution = () => {
     }}>Failed to load</div>
   )
 
-  const total = data?.reduce((sum, t) => sum + t.cost, 0) ?? 0
-  const attributed = data?.reduce((sum, t) => sum + t.cost, 0) ?? 0
-  const unattributed = Math.max(0, total * 0.1) // TODO placeholder 10% unattributed
+  const rows = Array.isArray(data) ? data : []
+  const total = rows.reduce((sum: number, t: any) => sum + (t.cost ?? 0), 0)
+  const unattributed = Math.max(0, total * 0.1)
 
   return (
     <div style={{
@@ -48,9 +47,8 @@ const CostAttribution = () => {
       }}>
         Cost Attribution
       </div>
-
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-        {data?.map((t) => (
+        {rows.map((t: any) => (
           <div key={t.team}>
             <div style={{
               display: 'flex',
@@ -59,7 +57,9 @@ const CostAttribution = () => {
               fontSize: '12px',
             }}>
               <span style={{ color: 'var(--colour-text-primary)' }}>{t.team}</span>
-              <span style={{ color: 'var(--colour-text-secondary)' }}>£{t.cost.toLocaleString()}</span>
+              <span style={{ color: 'var(--colour-text-secondary)' }}>
+                {'\u00a3'}{(t.cost ?? 0).toLocaleString()}
+              </span>
             </div>
             <div style={{
               height: '4px',
@@ -69,15 +69,13 @@ const CostAttribution = () => {
             }}>
               <div style={{
                 height: '100%',
-                width: `${(t.cost / (total + unattributed)) * 100}%`,
+                width: `${((t.cost ?? 0) / (total + unattributed)) * 100}%`,
                 backgroundColor: 'var(--colour-blue, #63b3ed)',
                 borderRadius: '2px',
               }} />
             </div>
           </div>
         ))}
-
-        {/* Always show unattributed row */}
         <div>
           <div style={{
             display: 'flex',
@@ -86,7 +84,9 @@ const CostAttribution = () => {
             fontSize: '12px',
           }}>
             <span style={{ color: 'var(--colour-text-muted)' }}>Unattributed</span>
-            <span style={{ color: 'var(--colour-text-muted)' }}>£{unattributed.toLocaleString()}</span>
+            <span style={{ color: 'var(--colour-text-muted)' }}>
+              {'\u00a3'}{unattributed.toLocaleString()}
+            </span>
           </div>
           <div style={{
             height: '4px',

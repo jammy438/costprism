@@ -15,7 +15,7 @@ export async function GET(req: Request) {
   }
 
   const res = await internalFetch(
-    `/metrics/by-service?org_id=${orgId}&from_date=${from}&to_date=${to}`
+    `/internal/metrics/by-service?org_id=${orgId}&from_date=${from}&to_date=${to}`
   )
 
   if (!res.ok) {
@@ -23,5 +23,17 @@ export async function GET(req: Request) {
   }
 
   const data = await res.json()
-  return NextResponse.json(data)
+
+  // Map George's { rows: [{ service_name, net_amortised_cost, percent_of_total }] }
+  // to component expected [{ service, cost, sparklineData }]
+  const mapped = (data.rows ?? []).map((r: any) => ({
+    service: r.service_name,
+    service_name: r.service_name,
+    cost: r.net_amortised_cost ?? 0,
+    net_amortised_cost: r.net_amortised_cost ?? 0,
+    percentage: r.percent_of_total ?? 0,
+    sparklineData: [],
+  }))
+
+  return NextResponse.json(mapped)
 }

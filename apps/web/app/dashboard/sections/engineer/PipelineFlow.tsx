@@ -25,16 +25,33 @@ const PipelineFlow = () => {
     }}>Loading...</div>
   )
 
-  const providerNodes = (providers ?? []).map(p => ({ name: p.provider }))
-  const teamNodes = (teams ?? []).map(t => ({ name: t.team }))
+  const providerRows = Array.isArray(providers) ? providers : []
+  const teamRows = Array.isArray(teams) ? teams : []
+
+  if (!providerRows.length || !teamRows.length) return (
+    <div style={{
+      backgroundColor: 'var(--colour-bg-card)',
+      border: '1px solid var(--colour-border)',
+      borderRadius: '14px',
+      padding: '24px',
+      color: 'var(--colour-text-muted)',
+      fontSize: '13px',
+      minHeight: '200px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}>No data available</div>
+  )
+
+  const providerNodes = providerRows.map((p: any) => ({ name: p.provider }))
+  const teamNodes = teamRows.map((t: any) => ({ name: t.team }))
   const nodes = [...providerNodes, ...teamNodes]
 
-  // Each provider links to each team — value split evenly
-  const links = (providers ?? []).flatMap((p, pIdx) =>
-    (teams ?? []).map((t, tIdx) => ({
+  const links = providerRows.flatMap((p: any, pIdx: number) =>
+    teamRows.map((t: any, tIdx: number) => ({
       source: pIdx,
       target: providerNodes.length + tIdx,
-      value: Math.max(1, Math.round(p.cost / (teams?.length ?? 1))),
+      value: Math.max(1, Math.round((p.cost ?? 1) / (teamRows.length || 1))),
     }))
   )
 
@@ -77,16 +94,13 @@ const PipelineFlow = () => {
   }
 
   const CustomLink = (props: any) => {
-    const { sourceX, sourceY, sourceControlX, targetX, targetY, targetControlX, linkWidth, index, payload } = props
+    const { sourceX, sourceY, sourceControlX, targetX, targetY, linkWidth, payload } = props
     const isHighlighted = activeNode !== null &&
       (payload.source === activeNode || payload.target === activeNode)
 
     return (
       <path
-        d={`
-          M${sourceX},${sourceY}
-          C${sourceControlX},${sourceY} ${targetControlX},${targetY} ${targetX},${targetY}
-        `}
+        d={`M${sourceX},${sourceY} C${sourceControlX},${sourceY} ${sourceControlX},${targetY} ${targetX},${targetY}`}
         fill="none"
         stroke={isHighlighted ? 'rgba(99, 179, 237, 0.6)' : 'rgba(99, 179, 237, 0.15)'}
         strokeWidth={linkWidth}

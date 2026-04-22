@@ -1,9 +1,8 @@
 'use client'
-
 import { useSpendByService } from '@/lib/hooks/useSpendByService'
 
 const TopClusters = () => {
-  const { data, isLoading, isError } = useSpendByService('2026-01-01', '2026-03-01', 3)
+  const { data, isLoading, isError } = useSpendByService('2026-01-01', '2026-03-01')
 
   if (isLoading) return (
     <div style={{
@@ -27,6 +26,8 @@ const TopClusters = () => {
     }}>Failed to load</div>
   )
 
+  const rows = Array.isArray(data) ? data : []
+
   return (
     <div style={{
       backgroundColor: 'var(--colour-bg-card)',
@@ -44,9 +45,8 @@ const TopClusters = () => {
       }}>
         Top Clusters
       </div>
-
       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        {data?.map((s) => (
+        {rows.map((s: any) => (
           <div key={s.service} style={{
             display: 'flex',
             alignItems: 'center',
@@ -75,7 +75,7 @@ const TopClusters = () => {
               color: 'var(--colour-text-secondary)',
               fontWeight: 500,
             }}>
-              £{s.cost.toLocaleString()}
+              {'\u00a3'}{(s.cost ?? 0).toLocaleString()}
             </span>
           </div>
         ))}

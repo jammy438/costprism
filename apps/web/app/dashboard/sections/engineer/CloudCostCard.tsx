@@ -12,7 +12,7 @@ const TotalSpendEngineerCard = ({ from, to }: { from: string; to: string }) => {
   const { data, isLoading, isError } = useTotalSpend(from, to)
   const queryClient = useQueryClient()
   const [hovered, setHovered] = useState(false)
-  const [services, setServices] = useState<{ service: string; cost: number }[]>([])
+  const [services, setServices] = useState<any[]>([])
 
   const handleMouseEnter = async () => {
     setHovered(true)
@@ -29,9 +29,9 @@ const TotalSpendEngineerCard = ({ from, to }: { from: string; to: string }) => {
     }
 
     try {
-      const res = await fetch(`/api/charts/spend-by-service?from=${from}&to=${to}&limit=3`)
+      const res = await fetch(`/api/metrics/by-service?from=${from}&to=${to}`)
       const json = await res.json()
-      setServices(json.slice(0, 3))
+      setServices(json.rows?.slice(0, 3) ?? [])
     } catch {
     }
   }
@@ -82,7 +82,7 @@ const TotalSpendEngineerCard = ({ from, to }: { from: string; to: string }) => {
             Top Services
           </div>
           {services.map((s) => (
-            <div key={s.service} style={{
+            <div key={s.service_name} style={{
               display: 'flex',
               justifyContent: 'space-between',
               gap: '24px',
@@ -90,9 +90,9 @@ const TotalSpendEngineerCard = ({ from, to }: { from: string; to: string }) => {
               color: 'var(--colour-text-primary)',
               padding: '3px 0',
             }}>
-              <span>{s.service}</span>
+              <span>{s.service_name}</span>
               <span style={{ color: 'var(--colour-text-secondary)' }}>
-                £{s.cost.toLocaleString()}
+                £{s.net_amortised_cost.toLocaleString()}
               </span>
             </div>
           ))}

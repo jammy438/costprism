@@ -23,16 +23,5 @@ export async function GET(req: Request) {
   }
 
   const data = await res.json()
-
-  // Map George's { rows: [{ team, net_amortised_cost, percent_of_total }] }
-  // to component expected [{ team, cost, percentage, sparklineData }]
-  const mapped = (data.rows ?? []).map((r: any) => ({
-    team: r.team,
-    cost: r.net_amortised_cost ?? 0,
-    net_amortised_cost: r.net_amortised_cost ?? 0,
-    percentage: r.percent_of_total ?? 0,
-    sparklineData: [],
-  }))
-
-  return NextResponse.json(mapped)
+  return NextResponse.json(data)
 }
