@@ -8,7 +8,7 @@ const UpdatePolicySchema = z.object({
   description: z.string().optional(),
   type: z.enum(['BUDGET_GUARDRAIL', 'TAGGING_REQUIRED', 'DRIFT_DETECTION', 'SPEND_ANOMALY']).optional(),
   severity: z.enum(['LOW', 'MEDIUM', 'HIGH', 'CRITICAL']).optional(),
-  config: z.record(z.unknown()).optional(),
+  config: z.record(z.string(), z.unknown()).transform(val => val as any).optional(),
   enabled: z.boolean().optional(),
 })
 
@@ -66,7 +66,7 @@ export async function PATCH(
       action: 'governance_policy.updated',
       resourceType: 'governance_policy',
       resourceId: id,
-      metadata: parsed.data,
+      metadata: parsed.data as any,
     },
   })
 

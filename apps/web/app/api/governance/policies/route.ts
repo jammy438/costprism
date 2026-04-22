@@ -8,7 +8,7 @@ const CreatePolicySchema = z.object({
   description: z.string().optional(),
   type: z.enum(['BUDGET_GUARDRAIL', 'TAGGING_REQUIRED', 'DRIFT_DETECTION', 'SPEND_ANOMALY']),
   severity: z.enum(['LOW', 'MEDIUM', 'HIGH', 'CRITICAL']).default('MEDIUM'),
-  config: z.record(z.unknown()),
+  config: z.record(z.string(), z.unknown()).transform(val => val as any),
   enabled: z.boolean().default(true),
 })
 

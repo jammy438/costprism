@@ -70,7 +70,7 @@ export async function PATCH(
       action: 'budget.updated',
       resourceType: 'budget',
       resourceId: id,
-      metadata: parsed.data,
+      metadata: parsed.data as any,
     },
   })
 
