@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic'
 
-const ConnectorsList = dynamic(() => import('./components/connectorsList'), { ssr: false })
+const ConnectorsList = dynamic(() => import('./components/ConnectorsList'), { ssr: false })
 
 const ConnectorsPage = () => {
   return (
