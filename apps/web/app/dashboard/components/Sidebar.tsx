@@ -9,6 +9,7 @@ const navItems = [
   { label: 'Costs',      href: '/dashboard/costs',       icon: '£' },
   { label: 'Budgets',    href: '/dashboard/budgets',     icon: '◫' },
   { label: 'Tags',       href: '/dashboard/tags',        icon: '#' },
+  { label: 'Governance', href: '/dashboard/governance',  icon: '🛡' },
   { label: 'Connectors', href: '/dashboard/connectors',  icon: '⬡' },
   { label: 'Reports',    href: '/dashboard/reports',     icon: '≡' },
   { label: 'Settings',   href: '/dashboard/settings',    icon: '⚙' },
