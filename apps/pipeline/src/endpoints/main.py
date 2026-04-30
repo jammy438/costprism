@@ -7,6 +7,7 @@ from src.endpoints.tags import router as tags_router
 from src.endpoints.pricing import router as pricing_router
 from src.endpoints.analytics import router as analytics_router
 
+
 app = FastAPI(title="CostPrism Internal API")
 
 app.include_router(connectors_router, prefix="/internal")
