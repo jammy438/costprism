@@ -111,3 +111,53 @@ class PricingEstimateResponse(BaseModel):
     currency: str 
     cached_at: datetime 
     freshness_warning: bool
+
+class AnomalyResponse(BaseModel):
+    id: str
+    title: str
+    description: str
+    severity: str  # 'warning' | 'critical' | 'info'
+    service_name: str
+    spend_impact: float
+    detected_at: datetime
+    currency: str
+ 
+class AnomaliesResponse(BaseModel):
+    anomalies: list[AnomalyResponse]
+    currency: str
+ 
+class SavingsOpportunityResponse(BaseModel):
+    id: str
+    title: str
+    description: str
+    estimated_monthly_saving: float
+    category: str  # 'rightsizing' | 'reserved' | 'unused' | 'scheduling'
+    currency: str
+ 
+class SavingsOpportunitiesResponse(BaseModel):
+    opportunities: list[SavingsOpportunityResponse]
+    total_estimated_saving: float
+    currency: str
+ 
+class ConnectorHealthResponse(BaseModel):
+    connector_id: str
+    connector_name: str
+    status: str  # 'healthy' | 'degraded' | 'error'
+    last_sync_at: Optional[datetime]
+    last_sync_row_count: Optional[int]
+    last_error: Optional[str]
+    success_rate_7d: float  # percentage
+ 
+class PipelineHealthResponse(BaseModel):
+    connectors: list[ConnectorHealthResponse]
+    overall_success_rate: float
+    total_jobs_7d: int
+ 
+class MetricProviderSpendRowResponse(BaseModel):
+    provider: str
+    net_amortised_cost: float
+    percent_of_total: float
+ 
+class MetricProviderSpendResponse(BaseModel):
+    rows: list[MetricProviderSpendRowResponse]
+    currency: str
