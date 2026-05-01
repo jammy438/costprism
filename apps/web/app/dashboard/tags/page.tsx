@@ -53,9 +53,6 @@ const TagsPage = () => {
               marginBottom: '-1px',
               background: 'none',
               border: 'none',
-              borderBottomStyle: 'solid',
-              borderBottomWidth: '2px',
-              borderBottomColor: activeTab === tab ? 'var(--colour-blue)' : 'transparent',
               cursor: 'pointer',
             }}
           >
