@@ -8,10 +8,11 @@ interface DrillDownWrapperProps {
   children: React.ReactNode
   title: string
   queryKeys?: string[]
+  expandedContent?: React.ReactNode
   tableData?: { headers: string[]; rows: (string | number)[][] }
 }
 
-const DrillDownWrapper = ({ children, title, queryKeys = [], tableData }: DrillDownWrapperProps) => {
+const DrillDownWrapper = ({ children, title, queryKeys = [], expandedContent, tableData }: DrillDownWrapperProps) => {
   const [hovered, setHovered] = useState(false)
   const [mode, setMode] = useState<'card' | 'expanded' | 'table'>('card')
   const [refreshing, setRefreshing] = useState(false)
@@ -23,11 +24,11 @@ const DrillDownWrapper = ({ children, title, queryKeys = [], tableData }: DrillD
     setTimeout(() => setRefreshing(false), 800)
   }, [queryKeys, queryClient])
 
-  const handleExpand = () => setMode('expanded')
-  const handleTable = () => setMode('table')
   const handleClose = () => setMode('card')
 
-  // Expanded / table overlay
+  const canExpand = !!expandedContent
+  const canTable = !!tableData
+
   if (mode === 'expanded' || mode === 'table') {
     return (
       <div style={{
@@ -65,24 +66,26 @@ const DrillDownWrapper = ({ children, title, queryKeys = [], tableData }: DrillD
                 {title}
               </span>
               <div style={{ display: 'flex', gap: '6px' }}>
-                <button
-                  onClick={() => setMode('expanded')}
-                  style={{
-                    padding: '4px 10px',
-                    background: mode === 'expanded' ? 'rgba(48,110,255,0.1)' : 'var(--colour-bg-page)',
-                    border: `1px solid ${mode === 'expanded' ? 'var(--colour-blue)' : 'var(--colour-border)'}`,
-                    borderRadius: '6px',
-                    color: mode === 'expanded' ? 'var(--colour-blue)' : 'var(--colour-text-muted)',
-                    fontSize: '11px',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '4px',
-                  }}
-                >
-                  <Maximize2 size={11} /> Chart
-                </button>
-                {tableData && (
+                {canExpand && (
+                  <button
+                    onClick={() => setMode('expanded')}
+                    style={{
+                      padding: '4px 10px',
+                      background: mode === 'expanded' ? 'rgba(48,110,255,0.1)' : 'var(--colour-bg-page)',
+                      border: `1px solid ${mode === 'expanded' ? 'var(--colour-blue)' : 'var(--colour-border)'}`,
+                      borderRadius: '6px',
+                      color: mode === 'expanded' ? 'var(--colour-blue)' : 'var(--colour-text-muted)',
+                      fontSize: '11px',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                    }}
+                  >
+                    <Maximize2 size={11} /> Detail
+                  </button>
+                )}
+                {canTable && (
                   <button
                     onClick={() => setMode('table')}
                     style={{
@@ -138,12 +141,8 @@ const DrillDownWrapper = ({ children, title, queryKeys = [], tableData }: DrillD
           </div>
 
           {/* Modal content */}
-          <div style={{ flex: 1, overflowY: 'auto', padding: '20px' }}>
-            {mode === 'expanded' && (
-              <div style={{ minHeight: '300px' }}>
-                {children}
-              </div>
-            )}
+          <div style={{ flex: 1, overflowY: 'auto', padding: '24px' }}>
+            {mode === 'expanded' && expandedContent}
 
             {mode === 'table' && tableData && (
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
@@ -183,7 +182,6 @@ const DrillDownWrapper = ({ children, title, queryKeys = [], tableData }: DrillD
     )
   }
 
-  // Normal card with hover actions
   return (
     <div
       style={{ position: 'relative' }}
@@ -192,8 +190,7 @@ const DrillDownWrapper = ({ children, title, queryKeys = [], tableData }: DrillD
     >
       {children}
 
-      {/* Action icons — appear on hover */}
-      {hovered && (
+      {hovered && (canExpand || canTable || queryKeys.length > 0) && (
         <div style={{
           position: 'absolute',
           top: '10px',
@@ -202,28 +199,30 @@ const DrillDownWrapper = ({ children, title, queryKeys = [], tableData }: DrillD
           gap: '4px',
           zIndex: 10,
         }}>
-          <button
-            onClick={handleExpand}
-            title="Expand"
-            style={{
-              width: '26px',
-              height: '26px',
-              borderRadius: '6px',
-              background: 'var(--colour-bg-card)',
-              border: '1px solid var(--colour-border)',
-              color: 'var(--colour-text-muted)',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
-            }}
-          >
-            <Maximize2 size={12} />
-          </button>
-          {tableData && (
+          {canExpand && (
             <button
-              onClick={handleTable}
+              onClick={() => setMode('expanded')}
+              title="Expand detail"
+              style={{
+                width: '26px',
+                height: '26px',
+                borderRadius: '6px',
+                background: 'var(--colour-bg-card)',
+                border: '1px solid var(--colour-border)',
+                color: 'var(--colour-text-muted)',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+              }}
+            >
+              <Maximize2 size={12} />
+            </button>
+          )}
+          {canTable && (
+            <button
+              onClick={() => setMode('table')}
               title="Table view"
               style={{
                 width: '26px',

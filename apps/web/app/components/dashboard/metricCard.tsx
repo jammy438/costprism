@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { SkeletonBlock } from '@/app/components/dashboard/skeleton'
+import { SkeletonBlock } from '@/app/dashboard/skeleton'
 
 interface MetricCardProps {
   label: string
@@ -34,10 +34,10 @@ const useCountUp = (value: string, duration = 800) => {
       return
     }
 
-    const prefix = match[1]
-    const suffix = match[3]
-    const target = parseFloat(match[2].replace(/,/g, ''))
-    const start = parseFloat(prevMatch[2].replace(/,/g, ''))
+    const prefix = match[1] ?? ''
+    const suffix = match[3] ?? ''
+    const target = parseFloat(match[2]?.replace(/,/g, '') ?? '0')
+    const start = parseFloat(prevMatch[2]?.replace(/,/g, '') ?? '0')
 
     if (isNaN(target) || isNaN(start)) {
       setDisplay(value)
