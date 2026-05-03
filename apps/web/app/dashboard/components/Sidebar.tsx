@@ -3,16 +3,28 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useSidebarStore } from '@/lib/stores/sidebar'
+import {
+  LayoutDashboard,
+  DollarSign,
+  Wallet,
+  Tag,
+  Shield,
+  Plug,
+  BarChart3,
+  Settings,
+  ChevronLeft,
+  ChevronRight,
+} from 'lucide-react'
 
 const navItems = [
-  { label: 'Overview',   href: '/dashboard',            icon: '◉' },
-  { label: 'Costs',      href: '/dashboard/costs',       icon: '£' },
-  { label: 'Budgets',    href: '/dashboard/budgets',     icon: '◫' },
-  { label: 'Tags',       href: '/dashboard/tags',        icon: '#' },
-  { label: 'Governance', href: '/dashboard/governance',  icon: '🛡' },
-  { label: 'Connectors', href: '/dashboard/connectors',  icon: '⬡' },
-  { label: 'Reports',    href: '/dashboard/reports',     icon: '≡' },
-  { label: 'Settings',   href: '/dashboard/settings',    icon: '⚙' },
+  { label: 'Overview',   href: '/dashboard',           Icon: LayoutDashboard },
+  { label: 'Costs',      href: '/dashboard/costs',      Icon: DollarSign },
+  { label: 'Budgets',    href: '/dashboard/budgets',    Icon: Wallet },
+  { label: 'Tags',       href: '/dashboard/tags',       Icon: Tag },
+  { label: 'Governance', href: '/dashboard/governance', Icon: Shield },
+  { label: 'Connectors', href: '/dashboard/connectors', Icon: Plug },
+  { label: 'Reports',    href: '/dashboard/reports',    Icon: BarChart3 },
+  { label: 'Settings',   href: '/dashboard/settings',   Icon: Settings },
 ]
 
 const Sidebar = () => {
@@ -42,11 +54,10 @@ const Sidebar = () => {
         gap: '10px',
         whiteSpace: 'nowrap',
       }}>
-        {/* Blue C circle */}
         <div style={{
           width: '28px',
           height: '28px',
-          borderRadius: '50%',
+          borderRadius: '8px',
           backgroundColor: 'var(--colour-blue)',
           display: 'flex',
           alignItems: 'center',
@@ -55,14 +66,16 @@ const Sidebar = () => {
           fontWeight: 700,
           fontSize: '13px',
           flexShrink: 0,
+          letterSpacing: '-0.5px',
         }}>
-          C
+          CP
         </div>
         {!collapsed && (
           <span style={{
             color: 'var(--colour-text-primary)',
             fontWeight: 700,
             fontSize: '15px',
+            letterSpacing: '-0.3px',
           }}>
             CostPrism
           </span>
@@ -72,46 +85,37 @@ const Sidebar = () => {
       {/* Nav items */}
       <nav style={{ flex: 1, padding: '8px' }}>
         {navItems.map((item) => {
-          const isActive = pathname === item.href
+          const isActive = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href))
           return (
-            <Link
-              key={item.href}
-              href={item.href}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-                padding: '8px 10px',
-                borderRadius: '8px',
-                marginBottom: '2px',
-                textDecoration: 'none',
-                whiteSpace: 'nowrap',
-                fontSize: '13px',
-                color: isActive
-                  ? 'var(--colour-blue)'
-                  : 'var(--colour-text-secondary)',
-                backgroundColor: isActive
-                  ? 'rgba(48, 110, 255, 0.08)'
-                  : 'transparent',
-                borderLeft: isActive
-                  ? '2px solid var(--colour-blue)'
-                  : '2px solid transparent',
-              }}
-            >
-              {/* Icon */}
-              <span style={{
-                fontSize: '14px',
-                flexShrink: 0,
-                width: '18px',
-                textAlign: 'center',
-              }}>
-                {item.icon}
-              </span>
-              {/* Label */}
-              {!collapsed && (
-                <span>{item.label}</span>
-              )}
-            </Link>
+            <div key={item.href} style={{ position: 'relative' }} title={collapsed ? item.label : undefined}>
+              <Link
+                href={item.href}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  padding: '8px 10px',
+                  borderRadius: '8px',
+                  marginBottom: '2px',
+                  textDecoration: 'none',
+                  whiteSpace: 'nowrap',
+                  fontSize: '13px',
+                  color: isActive ? 'var(--colour-blue)' : 'var(--colour-text-secondary)',
+                  backgroundColor: isActive ? 'rgba(48, 110, 255, 0.08)' : 'transparent',
+                  borderLeft: isActive ? '2px solid var(--colour-blue)' : '2px solid transparent',
+                  transition: 'background-color 0.15s ease, color 0.15s ease',
+                }}
+              >
+                <item.Icon
+                  size={16}
+                  style={{ flexShrink: 0 }}
+                  strokeWidth={isActive ? 2.5 : 1.8}
+                />
+                {!collapsed && (
+                  <span>{item.label}</span>
+                )}
+              </Link>
+            </div>
           )
         })}
       </nav>
@@ -130,9 +134,16 @@ const Sidebar = () => {
           fontSize: '11px',
           whiteSpace: 'nowrap',
           overflow: 'hidden',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: collapsed ? 'center' : 'flex-start',
+          gap: '6px',
         }}
       >
-        {collapsed ? '→' : '← Collapse'}
+        {collapsed
+          ? <ChevronRight size={14} />
+          : <><ChevronLeft size={14} /><span>Collapse</span></>
+        }
       </button>
     </div>
   )

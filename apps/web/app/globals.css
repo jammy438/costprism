@@ -59,6 +59,7 @@
 
   /* ── Typography ── */
   --font-mono: 'DM Mono', 'Fira Code', 'Courier New', monospace;
+--font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --background:          oklch(1 0 0);
   --foreground:          oklch(0.145 0 0);
   --card:          oklch(1 0 0);
@@ -97,7 +98,7 @@
 body {
   background-color: var(--colour-bg-page);
   color: var(--colour-text-primary);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
 }
 
 /* ── Card base ── */

@@ -20,7 +20,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
     height: '100vh',
     backgroundColor: '#0d1117',
     color: '#ffffff',
-    fontFamily: 'monospace'
+    fontFamily: 'var(--font-sans)'
   }}>
     <Sidebar />
     <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
