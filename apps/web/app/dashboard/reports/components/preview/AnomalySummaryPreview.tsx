@@ -1,0 +1,105 @@
+'use client'
+
+import { useAnomalies } from '@/lib/hooks/useAnomalies'
+
+interface Props { from: string; to: string; team?: string }
+
+const ReportSection = ({ title, children }: { title: string; children: React.ReactNode }) => (
+  <div style={{ marginBottom: '40px' }}>
+    <h2 style={{ fontSize: '13px', fontWeight: 600, color: 'var(--colour-text-secondary)', textTransform: 'uppercase', letterSpacing: '0.8px', margin: '0 0 16px', paddingBottom: '8px', borderBottom: '1px solid var(--colour-border)' }}>
+      {title}
+    </h2>
+    {children}
+  </div>
+)
+
+const SEVERITY_COLOURS: Record<string, string> = {
+  critical: 'var(--colour-red)',
+  warning: 'var(--colour-yellow)',
+  info: 'var(--colour-blue)',
+}
+
+const AnomalySummaryPreview = ({ from, to }: Props) => {
+  const { data: anomalies } = useAnomalies(10)
+  const rows = Array.isArray(anomalies) ? anomalies : []
+
+  const critical = rows.filter((a: any) => a.severity === 'critical').length
+  const warnings = rows.filter((a: any) => a.severity === 'warning').length
+
+  return (
+    <div style={{ color: 'var(--colour-text-primary)', fontFamily: 'monospace' }}>
+      <div style={{ marginBottom: '40px', paddingBottom: '24px', borderBottom: '2px solid var(--colour-border)' }}>
+        <div style={{ fontSize: '11px', color: 'var(--colour-text-muted)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>
+          CostPrism · Anomaly Summary
+        </div>
+        <h1 style={{ fontSize: '28px', fontWeight: 700, margin: '0 0 8px', letterSpacing: '-0.5px' }}>Anomaly Summary</h1>
+        <div style={{ fontSize: '13px', color: 'var(--colour-text-secondary)' }}>Period: {from} to {to}</div>
+      </div>
+
+      <ReportSection title="Summary">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
+          {[
+            { label: 'Total anomalies', value: rows.length, colour: 'var(--colour-text-primary)' },
+            { label: 'Critical', value: critical, colour: 'var(--colour-red)' },
+            { label: 'Warnings', value: warnings, colour: 'var(--colour-yellow)' },
+          ].map((stat) => (
+            <div key={stat.label} style={{ padding: '16px', background: 'var(--colour-bg-card)', border: '1px solid var(--colour-border)', borderRadius: '10px' }}>
+              <div style={{ fontSize: '11px', color: 'var(--colour-text-muted)', textTransform: 'uppercase', letterSpacing: '0.6px', marginBottom: '8px' }}>{stat.label}</div>
+              <div style={{ fontSize: '28px', fontWeight: 700, color: stat.colour }}>{stat.value}</div>
+            </div>
+          ))}
+        </div>
+      </ReportSection>
+
+      {rows.length > 0 && (
+        <ReportSection title="Anomaly list">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            {rows.map((a: any) => (
+              <div key={a.id} style={{
+                padding: '14px 16px',
+                background: 'var(--colour-bg-card)',
+                border: '1px solid var(--colour-border)',
+                borderRadius: '10px',
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{
+                      fontSize: '10px',
+                      padding: '2px 8px',
+                      borderRadius: '20px',
+                      background: `${SEVERITY_COLOURS[a.severity]}18`,
+                      color: SEVERITY_COLOURS[a.severity] ?? 'var(--colour-text-muted)',
+                      border: `1px solid ${SEVERITY_COLOURS[a.severity]}33`,
+                      fontWeight: 500,
+                      textTransform: 'uppercase' as const,
+                    }}>
+                      {a.severity}
+                    </span>
+                    <span style={{ fontSize: '13px', fontWeight: 600 }}>{a.title}</span>
+                  </div>
+                  <span style={{ fontSize: '12px', color: 'var(--colour-text-muted)' }}>
+                    {new Date(a.lastSynced).toLocaleDateString('en-GB')}
+                  </span>
+                </div>
+                <div style={{ fontSize: '12px', color: 'var(--colour-text-secondary)' }}>{a.description}</div>
+              </div>
+            ))}
+          </div>
+        </ReportSection>
+      )}
+
+      {rows.length === 0 && (
+        <div style={{ padding: '24px', background: 'var(--colour-bg-card)', border: '1px solid var(--colour-border)', borderRadius: '10px', fontSize: '13px', color: 'var(--colour-text-muted)', textAlign: 'center' as const }}>
+          No anomalies detected in this period.
+        </div>
+      )}
+
+      <div style={{ marginTop: '40px', paddingTop: '16px', borderTop: '1px solid var(--colour-border)', fontSize: '11px', color: 'var(--colour-text-muted)', display: 'flex', justifyContent: 'space-between' }}>
+        <span>Generated by CostPrism</span>
+        <span>{new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+      </div>
+    </div>
+  )
+}
+
+export default AnomalySummaryPreview
