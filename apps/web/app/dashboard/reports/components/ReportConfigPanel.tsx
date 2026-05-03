@@ -17,12 +17,12 @@ interface ReportConfigPanelProps {
 }
 
 const now = new Date()
-const today = now.toISOString().split('T')[0]
+const today = now.toISOString().split('T')[0] ?? ''
 const firstOfMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-01`
-const firstOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1).toISOString().split('T')[0]
-const lastOfLastMonth = new Date(now.getFullYear(), now.getMonth(), 0).toISOString().split('T')[0]
-const thirtyDaysAgo = new Date(now.getTime() - 30 * 86400000).toISOString().split('T')[0]
-const ninetyDaysAgo = new Date(now.getTime() - 90 * 86400000).toISOString().split('T')[0]
+const firstOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1).toISOString().split('T')[0] ?? ''
+const lastOfLastMonth = new Date(now.getFullYear(), now.getMonth(), 0).toISOString().split('T')[0] ?? ''
+const thirtyDaysAgo = new Date(now.getTime() - 30 * 86400000).toISOString().split('T')[0] ?? ''
+const ninetyDaysAgo = new Date(now.getTime() - 90 * 86400000).toISOString().split('T')[0] ?? ''
 
 const QUICK_RANGES = [
   { label: 'This month', from: firstOfMonth, to: today },

@@ -1,0 +1,11 @@
+﻿app/api/governance/policies/route.ts(44,5): error TS2322: Type '{ orgId: string; type: "BUDGET_GUARDRAIL" | "TAGGING_REQUIRED" | "DRIFT_DETECTION" | "SPEND_ANOMALY"; name: string; severity: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL"; enabled: boolean; description?: string | undefined; config?: any; }' is not assignable to type '(Without<GovernancePolicyCreateInput, GovernancePolicyUncheckedCreateInput> & GovernancePolicyUncheckedCreateInput) | (Without<...> & GovernancePolicyCreateInput)'.
+  Type '{ orgId: string; type: "BUDGET_GUARDRAIL" | "TAGGING_REQUIRED" | "DRIFT_DETECTION" | "SPEND_ANOMALY"; name: string; severity: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL"; enabled: boolean; description?: string | undefined; config?: any; }' is not assignable to type 'Without<GovernancePolicyCreateInput, GovernancePolicyUncheckedCreateInput> & GovernancePolicyUncheckedCreateInput'.
+    Type '{ orgId: string; type: "BUDGET_GUARDRAIL" | "TAGGING_REQUIRED" | "DRIFT_DETECTION" | "SPEND_ANOMALY"; name: string; severity: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL"; enabled: boolean; description?: string | undefined; config?: any; }' is not assignable to type 'GovernancePolicyUncheckedCreateInput'.
+      Property 'config' is optional in type '{ orgId: string; type: "BUDGET_GUARDRAIL" | "TAGGING_REQUIRED" | "DRIFT_DETECTION" | "SPEND_ANOMALY"; name: string; severity: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL"; enabled: boolean; description?: string | undefined; config?: any; }' but required in type 'GovernancePolicyUncheckedCreateInput'.
+app/dashboard/costs/components/CostChart.tsx(7,85): error TS2554: Expected 2 arguments, but got 3.
+app/dashboard/reports/components/ReportConfigPanel.tsx(20,7): error TS2322: Type 'string | undefined' is not assignable to type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+app/dashboard/reports/preview/[templateId]/page.tsx(24,9): error TS2322: Type 'string | undefined' is not assignable to type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+app/dashboard/sections/CostVsForecastCard.tsx(17,104): error TS2554: Expected 2 arguments, but got 3.
+app/dashboard/sections/TopServiceIncreases.tsx(12,68): error TS2554: Expected 2 arguments, but got 3.

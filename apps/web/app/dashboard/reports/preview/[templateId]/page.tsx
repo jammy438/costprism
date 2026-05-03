@@ -20,9 +20,9 @@ const PreviewContent = () => {
   const params = useParams()
   const searchParams = useSearchParams()
   const templateId: string = (Array.isArray(params.templateId) ? params.templateId[0] : params.templateId) ?? ''
-  const from: string = searchParams.get('from') ?? `${new Date().getFullYear()}-01-01`
-  const to: string = searchParams.get('to') ?? new Date().toISOString().split('T')[0]
-  const team: string = searchParams.get('team') ?? ''
+  const from: string = searchParams?.get('from') ?? `${new Date().getFullYear()}-01-01`
+  const to: string = searchParams?.get('to') ?? new Date().toISOString().split('T')[0] ?? ''
+  const team: string = searchParams?.get('team') ?? ''
 
   const handlePrint = () => window.print()
 
