@@ -3,7 +3,7 @@
 import { useAnomalies } from '@/lib/hooks/useAnomalies'
 import InsightRow from '@/app/components/dashboard/insightCard'
 import EmptyState from '@/app/components/dashboard/emptyState'
-import { SkeletonRow } from '@/app/components/dashboard/skeleton'
+import SkeletonRow from '@/app/components/dashboard/skeletons/skeletonRow'
 
 const InsightsSummary = () => {
   const { data, isLoading, isError } = useAnomalies(5)

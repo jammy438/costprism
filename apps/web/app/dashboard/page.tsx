@@ -4,6 +4,7 @@ import { Suspense } from 'react'
 import dynamic from 'next/dynamic'
 import PageErrorBoundary from '@/app/components/dashboard/pageErrorBoundary'
 import ViewGate from '@/app/components/dashboard/viewGate'
+import DrillDownWrapper from '@/app/components/dashboard/drillDownWrapper'
 
 // Director components
 const HealthScoreCard = dynamic(() => import('./sections/HealthScoreCard'), { ssr: false })
@@ -33,24 +34,36 @@ const DashboardPage = () => {
         <Suspense fallback={null}>
 
           <ViewGate mode="director">
-            <div style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '12px',
-            }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
-                <HealthScoreCard />
-                <SavingsCard />
-                <RiskAlertsCard />
-                <TotalSpendCard from="2026-01-01" to="2026-03-01" />
+                <DrillDownWrapper title="FinOps Health Score" queryKeys={[]}>
+                  <HealthScoreCard />
+                </DrillDownWrapper>
+                <DrillDownWrapper title="Savings Opportunities" queryKeys={['savingsOpportunities']}>
+                  <SavingsCard />
+                </DrillDownWrapper>
+                <DrillDownWrapper title="Risk Alerts" queryKeys={['anomalies']}>
+                  <RiskAlertsCard />
+                </DrillDownWrapper>
+                <DrillDownWrapper title="Total Cloud Spend" queryKeys={['totalSpend']}>
+                  <TotalSpendCard from="2026-01-01" to="2026-03-01" />
+                </DrillDownWrapper>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                <InsightsSummary />
-                <CostVsForecastCard />
+                <DrillDownWrapper title="Insights Summary" queryKeys={['anomalies']}>
+                  <InsightsSummary />
+                </DrillDownWrapper>
+                <DrillDownWrapper title="Cost vs Forecast" queryKeys={['spendOverTime', 'forecast']}>
+                  <CostVsForecastCard />
+                </DrillDownWrapper>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                <CostAllocation />
-                <TopServiceIncreases />
+                <DrillDownWrapper title="Cost Allocation" queryKeys={['spendByProvider']}>
+                  <CostAllocation />
+                </DrillDownWrapper>
+                <DrillDownWrapper title="Top Service Increases" queryKeys={['spendByService']}>
+                  <TopServiceIncreases />
+                </DrillDownWrapper>
               </div>
             </div>
           </ViewGate>
@@ -62,30 +75,44 @@ const DashboardPage = () => {
               gap: '16px',
               alignItems: 'stretch',
             }}>
-
-              {/* Left panel — activity feed */}
+              {/* Left panel */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', height: '100%' }}>
                 <InsightsFeed />
               </div>
 
-              {/* Centre panel — main content */}
+              {/* Centre panel */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
-                  <TotalSpendEngineerCard from="2026-01-01" to="2026-03-01" />
-                  <SavingsCard />
-                  <AnomaliesCard />
-                  <PipelineHealthCard />
+                  <DrillDownWrapper title="Total Spend" queryKeys={['totalSpend']}>
+                    <TotalSpendEngineerCard from="2026-01-01" to="2026-03-01" />
+                  </DrillDownWrapper>
+                  <DrillDownWrapper title="Savings" queryKeys={['savingsOpportunities']}>
+                    <SavingsCard />
+                  </DrillDownWrapper>
+                  <DrillDownWrapper title="Anomalies" queryKeys={['anomalies']}>
+                    <AnomaliesCard />
+                  </DrillDownWrapper>
+                  <DrillDownWrapper title="Pipeline Health" queryKeys={['pipelineHealth']}>
+                    <PipelineHealthCard />
+                  </DrillDownWrapper>
                 </div>
-                <CloudCostBreakdown />
-                <PipelineFlow />
+                <DrillDownWrapper title="Cloud Cost Breakdown" queryKeys={['spendByService']}>
+                  <CloudCostBreakdown />
+                </DrillDownWrapper>
+                <DrillDownWrapper title="Pipeline Flow" queryKeys={['spendByProvider', 'spendByTeam']}>
+                  <PipelineFlow />
+                </DrillDownWrapper>
               </div>
 
               {/* Right panel */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', height: '100%' }}>
-                <TopClusters />
-                <CostAttribution />
+                <DrillDownWrapper title="Top Clusters" queryKeys={['spendByService']}>
+                  <TopClusters />
+                </DrillDownWrapper>
+                <DrillDownWrapper title="Cost Attribution" queryKeys={['spendByTeam']}>
+                  <CostAttribution />
+                </DrillDownWrapper>
               </div>
-
             </div>
           </ViewGate>
 
