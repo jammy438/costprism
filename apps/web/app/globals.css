@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* ── Colour primitives ── */
+  /* -- Colour primitives -- */
   --colour-navy:          #0a1628;
   --colour-red:           #f73112;
   --colour-orange:        #ff8400;
@@ -14,36 +14,36 @@
   --colour-white:         #FFFFFF;
   --colour-blue:          #306EFF;
 
-  /* ── Semantic colours ── */
+  /* -- Semantic colours -- */
   --colour-spend-up:      var(--colour-red);
   --colour-spend-down:    var(--colour-green);
   --colour-warning:       var(--colour-yellow);
   --colour-pipeline:      var(--colour-blue);
   --colour-forecast:      var(--colour-orange);
 
-  /* ── Backgrounds ── */
+  /* -- Backgrounds -- */
   --colour-bg-page:       #0d1117;
   --colour-bg-sidebar:    #080d18;
   --colour-bg-card:       #111827;
   --colour-bg-card-hover: #1a2332;
 
-  /* ── Borders ── */
+  /* -- Borders -- */
   --colour-border:        #1f2937;
   --colour-border-subtle: #1a2332;
 
-  /* ── Text ── */
+  /* -- Text -- */
   --colour-text-primary:   #FFFFFF;
   --colour-text-secondary: #9ca3af;
   --colour-text-muted:     #4b5563;
   --colour-text-header:    #FFFFFF;
   --colour-text-label:     #6b7280;
 
-  /* ── Glow overlays (used for corner glow effect) ── */
+  /* -- Glow overlays -- */
   --colour-glow-up:       rgba(251, 59, 30, 0.22);
   --colour-glow-down:     rgba(76, 187, 23, 0.22);
   --colour-glow-pipeline: rgba(48, 110, 255, 0.22);
 
-  /* ── Spacing scale ── */
+  /* -- Spacing scale -- */
   --space-xs:   4px;
   --space-sm:   8px;
   --space-md:   16px;
@@ -51,15 +51,15 @@
   --space-xl:   32px;
   --space-2xl:  48px;
 
-  /* ── Border radius ── */
-  --radius-sm:  6px;   /* badges, pills */
-  --radius-md:  8px;   /* buttons, inputs, nav items */
-  --radius-lg:  14px;  /* cards */
-  --radius-full: 9999px; /* circular avatars */
+  /* -- Border radius -- */
+  --radius-sm:  6px;
+  --radius-md:  8px;
+  --radius-lg:  14px;
+  --radius-full: 9999px;
 
-  /* ── Typography ── */
+  /* -- Typography -- */
   --font-mono: 'DM Mono', 'Fira Code', 'Courier New', monospace;
---font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --background:          oklch(1 0 0);
   --foreground:          oklch(0.145 0 0);
   --card:          oklch(1 0 0);
@@ -94,14 +94,14 @@
   --sidebar-ring:          oklch(0.708 0 0);
 }
 
-/* ── Base styles ── */
+/* -- Base styles -- */
 body {
   background-color: var(--colour-bg-page);
   color: var(--colour-text-primary);
   font-family: var(--font-sans);
 }
 
-/* ── Card base ── */
+/* -- Card base -- */
 .cp-card {
   background-color: var(--colour-bg-card);
   border: 1px solid var(--colour-border);
@@ -111,7 +111,7 @@ body {
   overflow: hidden;
 }
 
-/* ── Corner glow effect ── */
+/* -- Corner glow effect -- */
 .cp-glow::before {
   content: '';
   position: absolute;
@@ -129,7 +129,7 @@ body {
 .cp-glow-down::before  { background: var(--colour-glow-down); }
 .cp-glow-pipeline::before { background: var(--colour-glow-pipeline); }
 
-/* ── Label text style ── */
+/* -- Label text style -- */
 .cp-label {
   font-size: 10px;
   text-transform: uppercase;
@@ -138,7 +138,7 @@ body {
   color: var(--colour-text-label);
 }
 
-/* ── Sidebar nav item ── */
+/* -- Sidebar nav item -- */
 .cp-nav-item {
   display: flex;
   align-items: center;
@@ -157,7 +157,26 @@ body {
   border-left-color: var(--colour-blue);
 }
 
-/* ── Scrollbar (dark mode) ── */
+/* -- Card hover utility -- */
+.cp-card-hover {
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.cp-card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+/* -- Button transitions -- */
+.cp-btn {
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+
+.cp-btn:active {
+  transform: scale(0.97);
+}
+
+/* -- Scrollbar (dark mode) -- */
 ::-webkit-scrollbar       { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--colour-bg-page); }
 ::-webkit-scrollbar-thumb { background: var(--colour-border); border-radius: var(--radius-full); }
@@ -250,9 +269,7 @@ body {
   }
 }
 
-@media print {
-  .no-print { display: none !important; }
-}
+/* -- Keyframe animations -- */
 
 @keyframes skeleton-pulse {
   0% { background-position: 200% 0; }
@@ -262,4 +279,39 @@ body {
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* -- Animation utility classes -- */
+
+.animate-fade-in {
+  animation: fade-in 0.25s ease forwards;
+}
+
+.animate-slide-in {
+  animation: slide-in-right 0.2s ease forwards;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.2s ease forwards;
+}
+
+/* -- Print styles -- */
+
+@media print {
+  .no-print { display: none !important; }
 }

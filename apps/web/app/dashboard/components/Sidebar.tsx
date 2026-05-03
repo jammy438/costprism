@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useState } from 'react'
 import { useSidebarStore } from '@/lib/stores/sidebar'
 import { useGovernancePolicies } from '@/lib/hooks/useGovernancePolicies'
 import { useAnomalies } from '@/lib/hooks/useAnomalies'
@@ -52,12 +53,72 @@ const AlertDot = ({ count }: { count: number }) => {
   )
 }
 
+const NavItem = ({ item, isActive, collapsed, alertCount }: {
+  item: typeof NAV_ITEMS[0]
+  isActive: boolean
+  collapsed: boolean
+  alertCount: number
+}) => {
+  const [hovered, setHovered] = useState(false)
+
+  return (
+    <div title={collapsed ? item.label : undefined}>
+      <Link
+        href={item.href}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '10px',
+          padding: '8px 10px',
+          borderRadius: '8px',
+          marginBottom: '2px',
+          textDecoration: 'none',
+          whiteSpace: 'nowrap',
+          fontSize: '13px',
+          color: isActive ? 'var(--colour-blue)' : hovered ? 'var(--colour-text-primary)' : 'var(--colour-text-secondary)',
+          backgroundColor: isActive
+            ? 'rgba(48, 110, 255, 0.08)'
+            : hovered
+            ? 'rgba(255,255,255,0.04)'
+            : 'transparent',
+          borderLeft: isActive ? '2px solid var(--colour-blue)' : '2px solid transparent',
+          transition: 'background-color 0.15s ease, color 0.15s ease',
+        }}
+      >
+        <div style={{ position: 'relative', flexShrink: 0 }}>
+          <item.Icon
+            size={16}
+            strokeWidth={isActive ? 2.5 : 1.8}
+          />
+          {alertCount > 0 && collapsed && (
+            <div style={{
+              position: 'absolute',
+              top: '-4px',
+              right: '-4px',
+              width: '8px',
+              height: '8px',
+              borderRadius: '50%',
+              background: 'var(--colour-red)',
+            }} />
+          )}
+        </div>
+        {!collapsed && (
+          <>
+            <span style={{ flex: 1 }}>{item.label}</span>
+            <AlertDot count={alertCount} />
+          </>
+        )}
+      </Link>
+    </div>
+  )
+}
+
 const Sidebar = () => {
   const { collapsed, toggle } = useSidebarStore()
   const pathname = usePathname()
-  const { data: policies } = useGovernancePolicies()
   const { data: anomalies } = useAnomalies(10)
-
   const governanceAlertCount = anomalies?.length ?? 0
 
   return (
@@ -116,52 +177,14 @@ const Sidebar = () => {
         {NAV_ITEMS.map((item) => {
           const isActive = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href))
           const alertCount = item.alertKey === 'governance' ? governanceAlertCount : 0
-
           return (
-            <div key={item.href} title={collapsed ? item.label : undefined}>
-              <Link
-                href={item.href}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '10px',
-                  padding: '8px 10px',
-                  borderRadius: '8px',
-                  marginBottom: '2px',
-                  textDecoration: 'none',
-                  whiteSpace: 'nowrap',
-                  fontSize: '13px',
-                  color: isActive ? 'var(--colour-blue)' : 'var(--colour-text-secondary)',
-                  backgroundColor: isActive ? 'rgba(48, 110, 255, 0.08)' : 'transparent',
-                  borderLeft: isActive ? '2px solid var(--colour-blue)' : '2px solid transparent',
-                  transition: 'background-color 0.15s ease, color 0.15s ease',
-                }}
-              >
-                <div style={{ position: 'relative', flexShrink: 0 }}>
-                  <item.Icon
-                    size={16}
-                    strokeWidth={isActive ? 2.5 : 1.8}
-                  />
-                  {alertCount > 0 && collapsed && (
-                    <div style={{
-                      position: 'absolute',
-                      top: '-4px',
-                      right: '-4px',
-                      width: '8px',
-                      height: '8px',
-                      borderRadius: '50%',
-                      background: 'var(--colour-red)',
-                    }} />
-                  )}
-                </div>
-                {!collapsed && (
-                  <>
-                    <span style={{ flex: 1 }}>{item.label}</span>
-                    <AlertDot count={alertCount} />
-                  </>
-                )}
-              </Link>
-            </div>
+            <NavItem
+              key={item.href}
+              item={item}
+              isActive={isActive}
+              collapsed={collapsed}
+              alertCount={alertCount}
+            />
           )
         })}
       </nav>
@@ -184,7 +207,10 @@ const Sidebar = () => {
           alignItems: 'center',
           justifyContent: collapsed ? 'center' : 'flex-start',
           gap: '6px',
+          transition: 'background-color 0.15s ease',
         }}
+        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.04)')}
+        onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
       >
         {collapsed
           ? <ChevronRight size={14} />
