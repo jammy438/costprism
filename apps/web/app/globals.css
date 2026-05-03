@@ -253,3 +253,8 @@ body {
 @media print {
   .no-print { display: none !important; }
 }
+
+@keyframes skeleton-pulse {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

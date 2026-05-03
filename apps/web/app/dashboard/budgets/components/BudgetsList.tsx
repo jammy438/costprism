@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useBudgets, useDeleteBudget, Budget } from '@/lib/hooks/useBudgets'
 import BudgetForm from './BudgetForm'
+import { SkeletonCard } from '../../skeleton'
 
 const periodLabel = { MONTHLY: 'Monthly', QUARTERLY: 'Quarterly', ANNUAL: 'Annual' }
 const scopeLabel = { ORG: 'Organisation', TEAM: 'Team', SERVICE: 'Service', ACCOUNT: 'Account', ENVIRONMENT: 'Environment' }
@@ -57,23 +58,11 @@ const BudgetsList = () => {
     }
   }
 
-  if (isLoading) return (
-    <div style={{
-      display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-      gap: '16px',
-    }}>
-      {[1, 2, 3].map((i) => (
-        <div key={i} style={{
-          height: '160px',
-          background: 'var(--colour-bg-card)',
-          border: '1px solid var(--colour-border)',
-          borderRadius: '12px',
-          opacity: 0.5,
-        }} />
-      ))}
-    </div>
-  )
+ if (isLoading) return (
+  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '16px' }}>
+    {[1, 2, 3].map((i) => <SkeletonCard key={i} height="180px" />)}
+  </div>
+)
 
   if (isError) return (
     <div style={{

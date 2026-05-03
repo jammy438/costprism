@@ -42,8 +42,13 @@ export async function POST(req: Request) {
 
   const policy = await prisma.governancePolicy.create({
     data: {
-      ...parsed.data,
       orgId: org.id,
+      name: parsed.data.name,
+      description: parsed.data.description,
+      type: parsed.data.type,
+      severity: parsed.data.severity,
+      enabled: parsed.data.enabled,
+      config: parsed.data.config ?? {},
     },
   })
 
