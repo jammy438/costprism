@@ -3,6 +3,8 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useSidebarStore } from '@/lib/stores/sidebar'
+import { useGovernancePolicies } from '@/lib/hooks/useGovernancePolicies'
+import { useAnomalies } from '@/lib/hooks/useAnomalies'
 import {
   LayoutDashboard,
   DollarSign,
@@ -16,20 +18,47 @@ import {
   ChevronRight,
 } from 'lucide-react'
 
-const navItems = [
+const NAV_ITEMS = [
   { label: 'Overview',   href: '/dashboard',           Icon: LayoutDashboard },
   { label: 'Costs',      href: '/dashboard/costs',      Icon: DollarSign },
   { label: 'Budgets',    href: '/dashboard/budgets',    Icon: Wallet },
   { label: 'Tags',       href: '/dashboard/tags',       Icon: Tag },
-  { label: 'Governance', href: '/dashboard/governance', Icon: Shield },
+  { label: 'Governance', href: '/dashboard/governance', Icon: Shield, alertKey: 'governance' },
   { label: 'Connectors', href: '/dashboard/connectors', Icon: Plug },
   { label: 'Reports',    href: '/dashboard/reports',    Icon: BarChart3 },
   { label: 'Settings',   href: '/dashboard/settings',   Icon: Settings },
 ]
 
+const AlertDot = ({ count }: { count: number }) => {
+  if (count === 0) return null
+  return (
+    <div style={{
+      minWidth: '16px',
+      height: '16px',
+      borderRadius: '8px',
+      background: 'var(--colour-red)',
+      color: '#fff',
+      fontSize: '9px',
+      fontWeight: 700,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '0 4px',
+      marginLeft: 'auto',
+      flexShrink: 0,
+    }}>
+      {count > 9 ? '9+' : count}
+    </div>
+  )
+}
+
 const Sidebar = () => {
   const { collapsed, toggle } = useSidebarStore()
   const pathname = usePathname()
+  const { data: policies } = useGovernancePolicies()
+  const { data: anomalies } = useAnomalies(10)
+
+  const governanceAlertCount = anomalies?.length ?? 0
 
   return (
     <div style={{
@@ -84,10 +113,12 @@ const Sidebar = () => {
 
       {/* Nav items */}
       <nav style={{ flex: 1, padding: '8px' }}>
-        {navItems.map((item) => {
+        {NAV_ITEMS.map((item) => {
           const isActive = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href))
+          const alertCount = item.alertKey === 'governance' ? governanceAlertCount : 0
+
           return (
-            <div key={item.href} style={{ position: 'relative' }} title={collapsed ? item.label : undefined}>
+            <div key={item.href} title={collapsed ? item.label : undefined}>
               <Link
                 href={item.href}
                 style={{
@@ -106,13 +137,28 @@ const Sidebar = () => {
                   transition: 'background-color 0.15s ease, color 0.15s ease',
                 }}
               >
-                <item.Icon
-                  size={16}
-                  style={{ flexShrink: 0 }}
-                  strokeWidth={isActive ? 2.5 : 1.8}
-                />
+                <div style={{ position: 'relative', flexShrink: 0 }}>
+                  <item.Icon
+                    size={16}
+                    strokeWidth={isActive ? 2.5 : 1.8}
+                  />
+                  {alertCount > 0 && collapsed && (
+                    <div style={{
+                      position: 'absolute',
+                      top: '-4px',
+                      right: '-4px',
+                      width: '8px',
+                      height: '8px',
+                      borderRadius: '50%',
+                      background: 'var(--colour-red)',
+                    }} />
+                  )}
+                </div>
                 {!collapsed && (
-                  <span>{item.label}</span>
+                  <>
+                    <span style={{ flex: 1 }}>{item.label}</span>
+                    <AlertDot count={alertCount} />
+                  </>
                 )}
               </Link>
             </div>

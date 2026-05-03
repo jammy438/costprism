@@ -3,6 +3,7 @@
 import { useAnomalies } from '@/lib/hooks/useAnomalies'
 import InsightRow from '@/app/components/dashboard/insightCard'
 import EmptyState from '@/app/components/dashboard/emptyState'
+import { SkeletonRow } from '@/app/components/dashboard/skeleton'
 
 const InsightsSummary = () => {
   const { data, isLoading, isError } = useAnomalies(5)
@@ -14,7 +15,6 @@ const InsightsSummary = () => {
       borderRadius: '14px',
       padding: '24px',
     }}>
-
       <div style={{
         fontSize: '10px',
         textTransform: 'uppercase',
@@ -27,8 +27,8 @@ const InsightsSummary = () => {
       </div>
 
       {isLoading && (
-        <div style={{ color: 'var(--colour-text-muted)', fontSize: '13px' }}>
-          Loading...
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          {[1, 2, 3].map((i) => <SkeletonRow key={i} />)}
         </div>
       )}
 
@@ -48,7 +48,7 @@ const InsightsSummary = () => {
 
       {data && data.length > 0 && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          {data.map((insight) => (
+          {data.map((insight: any) => (
             <InsightRow
               key={insight.id}
               title={insight.title}
@@ -59,7 +59,6 @@ const InsightsSummary = () => {
           ))}
         </div>
       )}
-
     </div>
   )
 }
