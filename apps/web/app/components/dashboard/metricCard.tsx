@@ -36,8 +36,8 @@ const useCountUp = (value: string, duration = 800) => {
 
     const prefix = match[1] ?? ''
     const suffix = match[3] ?? ''
-    const target = parseFloat(match[2]?.replace(/,/g, '') ?? '0')
-    const start = parseFloat(prevMatch[2]?.replace(/,/g, '') ?? '0')
+    const target = parseFloat((match[2] ?? '0').replace(/,/g, ''))
+    const start = parseFloat((prevMatch[2] ?? '0').replace(/,/g, ''))
 
     if (isNaN(target) || isNaN(start)) {
       setDisplay(value)
