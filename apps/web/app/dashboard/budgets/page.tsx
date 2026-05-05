@@ -36,6 +36,7 @@ const BudgetsPage = () => {
       </div>
       <BudgetsList />
     </div>
+    </PageErrorBoundary>
   )
 }
 

@@ -29,6 +29,7 @@ const GovernancePage = () => {
       </div>
       <GovernanceList />
     </div>
+    </PageErrorBoundary>
   )
 }
 
