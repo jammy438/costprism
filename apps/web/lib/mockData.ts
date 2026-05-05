@@ -77,6 +77,32 @@ export const mockForecastResponse: ForecastResponse[] = [
     { date: '2024-01-03', forecastedSpend: 1900 },    
 ]
 
+export interface MonthlyTrendResponse {
+    month: string
+    spend: number
+    budgetLimit: number
+}
+
+export const mockMonthlyTrendResponse: MonthlyTrendResponse[] = [
+    { month: 'Jan', spend: 8800, budgetLimit: 10000 },
+    { month: 'Feb', spend: 9200, budgetLimit: 10000 },
+    { month: 'Mar', spend: 8400, budgetLimit: 10000 },
+]
+
+export interface TagCoverageSummaryResponse {
+    score: number
+    trend: number
+    untaggedSpend: number
+    topMissingKey: string
+}
+
+export const mockTagCoverageSummaryResponse: TagCoverageSummaryResponse = {
+    score: 78,
+    trend: 6,
+    untaggedSpend: 1890,
+    topMissingKey: 'environment',
+}
+
 export interface SpendByProviderResponse{
     provider: string
     cost: number 
@@ -148,4 +174,40 @@ export const mockCostRows: CostRowResponse[] = [
   { id: '8', serviceName: 'Amazon ElastiCache', providerName: 'AWS', regionName: 'eu-west-1', chargeType: 'Usage', effectiveCost: 180, billedCost: 180, billingPeriodStart: '2026-03-01', resourceName: 'redis-cache' },
   { id: '9', serviceName: 'AWS WAF', providerName: 'AWS', regionName: 'eu-west-1', chargeType: 'Fee', effectiveCost: 55, billedCost: 55, billingPeriodStart: '2026-03-01', resourceName: 'waf-ruleset' },
   { id: '10', serviceName: 'Amazon SES', providerName: 'AWS', regionName: 'eu-west-1', chargeType: 'Usage', effectiveCost: 12, billedCost: 12, billingPeriodStart: '2026-03-01', resourceName: 'transactional-email' },
+]
+
+export interface BudgetStatusResponse {
+  id: string
+  name: string
+  scopeType: string
+  period: string
+  spent: number
+  limit: number
+}
+
+export const mockBudgetStatusResponse: BudgetStatusResponse[] = [
+  {
+    id: 'budget-1',
+    name: 'Cloud Infrastructure',
+    scopeType: 'Team',
+    period: 'Monthly',
+    spent: 8400,
+    limit: 10000,
+  },
+  {
+    id: 'budget-2',
+    name: 'Data Platform',
+    scopeType: 'Project',
+    period: 'Monthly',
+    spent: 9800,
+    limit: 11000,
+  },
+  {
+    id: 'budget-3',
+    name: 'Analytics',
+    scopeType: 'Department',
+    period: 'Monthly',
+    spent: 10250,
+    limit: 10000,
+  },
 ]

@@ -9,7 +9,6 @@ const MonthlyTrendCard = () => {
   const latestMonth = data.length > 0 ? data[data.length - 1] : null
   if (!latestMonth) return null
 
-  const maxSpend = Math.max(...data.map((d) => d.spend))
   const prevMonth = data.length > 1 ? data[data.length - 2] : null
   const momChange = prevMonth
     ? ((latestMonth.spend - prevMonth.spend) / prevMonth.spend) * 100
