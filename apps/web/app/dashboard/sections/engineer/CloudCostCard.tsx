@@ -16,24 +16,20 @@ const TotalSpendEngineerCard = ({ from, to }: { from: string; to: string }) => {
 
   const handleMouseEnter = async () => {
     setHovered(true)
-
     const cached = queryClient.getQueryData<typeof mockSpendByServiceResponse>(['spendByService'])
     if (cached) {
       setServices(cached.slice(0, 3))
       return
     }
-
     if (isMock) {
       setServices(mockSpendByServiceResponse.slice(0, 3))
       return
     }
-
     try {
       const res = await fetch(`/api/metrics/by-service?from=${from}&to=${to}`)
       const json = await res.json()
       setServices(json.rows?.slice(0, 3) ?? [])
-    } catch {
-    }
+    } catch {}
   }
 
   const spend = data?.currentSpend
@@ -48,15 +44,14 @@ const TotalSpendEngineerCard = ({ from, to }: { from: string; to: string }) => {
     >
       <MetricCard
         label="Total Spend"
-        value={spend ? `£${spend.toLocaleString()}` : '—'}
-        trend={delta !== null ? `${delta > 0 ? '+' : ''}${delta.toFixed(1)}% vs last period` : '—'}
+        value={spend ? `\u00a3${spend.toLocaleString()}` : '\u2014'}
+        trend={delta !== null ? `${delta > 0 ? '+' : ''}${delta.toFixed(1)}% vs last period` : '\u2014'}
         trendDirection={delta !== null && delta > 0 ? 'up' : 'down'}
         upIsBad
         glow={delta !== null && delta > 0 ? 'red' : 'green'}
         isLoading={isLoading}
         isError={isError}
       />
-
       {hovered && services.length > 0 && (
         <div style={{
           position: 'absolute',
@@ -81,21 +76,25 @@ const TotalSpendEngineerCard = ({ from, to }: { from: string; to: string }) => {
           }}>
             Top Services
           </div>
-          {services.map((s) => (
-            <div key={s.service_name} style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              gap: '24px',
-              fontSize: '12px',
-              color: 'var(--colour-text-primary)',
-              padding: '3px 0',
-            }}>
-              <span>{s.service_name}</span>
-              <span style={{ color: 'var(--colour-text-secondary)' }}>
-                £{s.net_amortised_cost.toLocaleString()}
-              </span>
-            </div>
-          ))}
+          {services.map((s) => {
+            const name = s.service_name ?? s.service ?? 'Unknown'
+            const cost = s.net_amortised_cost ?? s.cost ?? 0
+            return (
+              <div key={name} style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                gap: '24px',
+                fontSize: '12px',
+                color: 'var(--colour-text-primary)',
+                padding: '3px 0',
+              }}>
+                <span>{name}</span>
+                <span style={{ color: 'var(--colour-text-secondary)' }}>
+                  {'\u00a3'}{cost.toLocaleString()}
+                </span>
+              </div>
+            )
+          })}
         </div>
       )}
     </div>
