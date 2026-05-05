@@ -1,4 +1,5 @@
 'use client'
+import PageErrorBoundary from '@/app/components/dashboard/pageErrorBoundary'
 
 import dynamic from 'next/dynamic'
 

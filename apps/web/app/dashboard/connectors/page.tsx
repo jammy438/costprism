@@ -1,4 +1,5 @@
 'use client'
+import PageErrorBoundary from '@/app/components/dashboard/pageErrorBoundary'
 
 import dynamic from 'next/dynamic'
 
@@ -6,6 +7,7 @@ const ConnectorsList = dynamic(() => import('./components/ConnectorsList'), { ss
 
 const ConnectorsPage = () => {
   return (
+    <PageErrorBoundary>
     <div style={{ padding: '24px 24px 48px 24px' }}>
       <div style={{ marginBottom: '24px' }}>
         <h1 style={{

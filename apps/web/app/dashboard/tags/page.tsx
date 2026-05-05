@@ -1,4 +1,5 @@
 'use client'
+import PageErrorBoundary from '@/app/components/dashboard/pageErrorBoundary'
 
 import { useState } from 'react'
 import dynamic from 'next/dynamic'
@@ -13,6 +14,7 @@ const TagsPage = () => {
   const [activeTab, setActiveTab] = useState<Tab>('Coverage')
 
   return (
+    <PageErrorBoundary>
     <div style={{ padding: '24px 24px 48px 24px' }}>
       <div style={{ marginBottom: '24px' }}>
         <h1 style={{
@@ -64,6 +66,7 @@ const TagsPage = () => {
       {activeTab === 'Coverage' && <TagCoverage />}
       {activeTab === 'Normalisation' && <TagNormalisation />}
     </div>
+    </PageErrorBoundary>
   )
 }
 
