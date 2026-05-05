@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useAnomalies } from '@/lib/hooks/useAnomalies'
 import { useQueryClient } from '@tanstack/react-query'
-import { SkeletonRow } from '@/app/components/dashboard/skeleton'
+import SkeletonRow from '@/app/components/skeletons/SkeletonRow'
 
 const SEVERITY_COLOURS: Record<string, string> = {
   critical: 'var(--colour-red)',
