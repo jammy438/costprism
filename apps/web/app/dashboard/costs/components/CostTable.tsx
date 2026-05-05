@@ -80,7 +80,7 @@ const CostsTable = () => {
           fontWeight: 600,
           color: 'var(--colour-text-label)',
         }}>
-          Cost Rows — {filtered.length} results
+          Cost Rows â€” {filtered.length} results
         </div>
 
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
@@ -192,7 +192,7 @@ const CostsTable = () => {
               cursor: page === 0 ? 'default' : 'pointer',
               fontSize: '12px',
             }}
-          >← Prev</button>
+          >â† Prev</button>
           <span>Page {page + 1} of {totalPages}</span>
           <button
             onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}
@@ -206,7 +206,7 @@ const CostsTable = () => {
               cursor: page === totalPages - 1 ? 'default' : 'pointer',
               fontSize: '12px',
             }}
-          >Next →</button>
+          >Next â†’</button>
         </div>
       )}
     </div>
