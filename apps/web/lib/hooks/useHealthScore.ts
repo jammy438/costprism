@@ -37,7 +37,7 @@ export const useHealthScore = (from: string, to: string) => {
     queryFn: isMock
       ? () => Promise.resolve(mockHealthScore)
       : async (): Promise<HealthScoreResponse> => {
-          const res = await fetch(/api/metrics/health-score?from=&to=)
+          const res = await fetch(`/api/metrics/health-score?from=${from}&to=${to}`)
           if (!res.ok) throw new Error('Failed to fetch health score')
           return res.json()
         },

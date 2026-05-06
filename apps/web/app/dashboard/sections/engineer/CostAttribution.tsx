@@ -44,6 +44,7 @@ const CostAttribution = () => {
         fontWeight: 600,
         color: 'var(--colour-text-label)',
         marginBottom: '16px',
+        paddingRight: '72px',
       }}>
         Cost Attribution
       </div>

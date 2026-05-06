@@ -38,7 +38,7 @@ const CostVsForecastChart = () => {
     }}>
 
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', paddingRight: '72px' }}>
         <div style={{
           fontSize: '10px',
           textTransform: 'uppercase',

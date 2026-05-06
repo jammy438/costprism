@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useUser } from '@clerk/nextjs'
+import { useUIPrefs } from '@/lib/providers/UIPrefsProviders'
 
 const FONT_SIZES = [
   { value: 'normal', label: 'Normal (14px)' },
@@ -83,32 +84,18 @@ const Toggle = ({ enabled, onChange }: { enabled: boolean; onChange: (v: boolean
 
 const UserSettings = () => {
   const { user, isLoaded } = useUser()
-  const [fontSize, setFontSize] = useState('normal')
-  const [colourMode, setColourMode] = useState('standard')
+  const { prefs, setPrefs } = useUIPrefs()
+
+  const [fontSize, setFontSize] = useState(prefs.fontSize)
+  const [colourMode, setColourMode] = useState(prefs.colourMode)
   const [emailAlerts, setEmailAlerts] = useState(true)
   const [weeklyDigest, setWeeklyDigest] = useState(true)
   const [prefsSaved, setPrefsSaved] = useState(false)
   const [notifSaved, setNotifSaved] = useState(false)
   const [resetSent, setResetSent] = useState(false)
 
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem('cp-ui-prefs')
-      if (stored) {
-        const prefs = JSON.parse(stored)
-        if (prefs.fontSize) setFontSize(prefs.fontSize)
-        if (prefs.colourMode) setColourMode(prefs.colourMode)
-      }
-    } catch {}
-  }, [])
-
-  useEffect(() => {
-    const sizes: Record<string, string> = { normal: '14px', large: '16px', xlarge: '18px' }
-    document.documentElement.style.setProperty('--cp-font-size-base', sizes[fontSize] ?? '14px')
-  }, [fontSize])
-
   const handleSavePreferences = () => {
-    localStorage.setItem('cp-ui-prefs', JSON.stringify({ fontSize, colourMode }))
+    setPrefs({ fontSize: fontSize as any, colourMode: colourMode as any })
     setPrefsSaved(true)
     setTimeout(() => setPrefsSaved(false), 3000)
   }
@@ -125,7 +112,7 @@ const UserSettings = () => {
     } catch {}
   }
 
-  const handlePasswordReset = async () => {
+  const handlePasswordReset = () => {
     setResetSent(true)
     setTimeout(() => setResetSent(false), 5000)
   }
@@ -172,7 +159,7 @@ const UserSettings = () => {
               cursor: 'pointer',
             }}
           >
-            {resetSent ? '\u2713 Reset email sent' : 'Send password reset email'}
+            {resetSent ? '✓ Reset email sent' : 'Send password reset email'}
           </button>
         </div>
       </SectionCard>
@@ -185,7 +172,7 @@ const UserSettings = () => {
             {FONT_SIZES.map((size) => (
               <button
                 key={size.value}
-                onClick={() => setFontSize(size.value)}
+                onClick={() => setFontSize(size.value as any)}
                 style={{
                   flex: 1,
                   padding: '8px',
@@ -210,7 +197,7 @@ const UserSettings = () => {
             {COLOUR_MODES.map((mode) => (
               <button
                 key={mode.value}
-                onClick={() => setColourMode(mode.value)}
+                onClick={() => setColourMode(mode.value as any)}
                 style={{
                   padding: '10px 14px',
                   background: colourMode === mode.value ? 'rgba(48,110,255,0.1)' : 'var(--colour-bg-page)',
@@ -232,7 +219,7 @@ const UserSettings = () => {
                   </div>
                 </div>
                 {colourMode === mode.value && (
-                  <span style={{ color: 'var(--colour-blue)', fontSize: '14px' }}>{'\u2713'}</span>
+                  <span style={{ color: 'var(--colour-blue)', fontSize: '14px' }}>✓</span>
                 )}
               </button>
             ))}

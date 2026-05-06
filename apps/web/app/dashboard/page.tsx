@@ -21,6 +21,11 @@ const CostVsForecastCard = dynamic(() => import('./sections/CostVsForecastCard')
 const CostAllocation = dynamic(() => import('./sections/CostAllocation'), { ssr: false })
 const TopServiceIncreases = dynamic(() => import('./sections/TopServiceIncreases'), { ssr: false })
 
+// Expanded components
+const HealthScoreExpanded = dynamic(() => import('./sections/HealthScoreExpanded'), { ssr: false })
+const SavingsExpanded = dynamic(() => import('./sections/SavingsExpanded'), { ssr: false })
+const PipelineHealthExpanded = dynamic(() => import('./sections/engineer/PipelineHealthExpanded'), { ssr: false })
+
 // Engineer components
 const TotalSpendEngineerCard = dynamic(() => import('./sections/engineer/CloudCostCard'), { ssr: false })
 const AnomaliesCard = dynamic(() => import('./sections/engineer/AnomaliesCard'), { ssr: false })
@@ -163,10 +168,10 @@ const DashboardPage = () => {
           <ViewGate mode="director">
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
-                <DrillDownWrapper title="FinOps Health Score" queryKeys={[]}>
+                <DrillDownWrapper title="FinOps Health Score" queryKeys={['healthScore']} expandedContent={<HealthScoreExpanded />}>
                   <HealthScoreCard />
                 </DrillDownWrapper>
-                <DrillDownWrapper title="Savings Opportunities" queryKeys={['savingsOpportunities']}>
+                <DrillDownWrapper title="Savings Opportunities" queryKeys={['savingsOpportunities']} expandedContent={<SavingsExpanded />}>
                   <SavingsCard />
                 </DrillDownWrapper>
                 <DrillDownWrapper
@@ -214,13 +219,13 @@ const DashboardPage = () => {
                   <DrillDownWrapper title="Total Spend" queryKeys={['totalSpend']} expandedContent={<SpendOverTimeExpanded />}>
                     <TotalSpendEngineerCard from={FROM} to={TO} />
                   </DrillDownWrapper>
-                  <DrillDownWrapper title="Savings" queryKeys={['savingsOpportunities']}>
+                  <DrillDownWrapper title="Savings" queryKeys={['savingsOpportunities']} expandedContent={<SavingsExpanded />}>
                     <SavingsCard />
                   </DrillDownWrapper>
                   <DrillDownWrapper title="Anomalies" queryKeys={['anomalies']} expandedContent={<AnomaliesExpanded />}>
                     <AnomaliesCard />
                   </DrillDownWrapper>
-                  <DrillDownWrapper title="Pipeline Health" queryKeys={['pipelineHealth']}>
+                  <DrillDownWrapper title="Pipeline Health" queryKeys={['pipelineHealth']} expandedContent={<PipelineHealthExpanded />}>
                     <PipelineHealthCard />
                   </DrillDownWrapper>
                 </div>

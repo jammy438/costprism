@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { useAnomalies } from '@/lib/hooks/useAnomalies'
-import { useQueryClient } from '@tanstack/react-query'
 import SkeletonRow from '@/app/components/dashboard/skeletons/skeletonRow'
 
 const SEVERITY_COLOURS: Record<string, string> = {
@@ -13,15 +12,10 @@ const SEVERITY_COLOURS: Record<string, string> = {
 
 const InsightsSummary = () => {
   const { data, isLoading, isError } = useAnomalies(5)
-  const queryClient = useQueryClient()
   const [acknowledged, setAcknowledged] = useState<Set<string>>(new Set())
 
   const handleAcknowledge = (id: string) => {
     setAcknowledged((prev) => new Set([...prev, id]))
-  }
-
-  const handleRefresh = () => {
-    queryClient.invalidateQueries({ queryKey: ['anomalies'] })
   }
 
   const rows = Array.isArray(data) ? data : []
@@ -35,7 +29,7 @@ const InsightsSummary = () => {
       borderRadius: '14px',
       padding: '24px',
     }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+      <div style={{ marginBottom: '16px' }}>
         <div style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.8px', fontWeight: 600, color: 'var(--colour-text-label)' }}>
           Insights Summary
           {unacknowledged.length > 0 && (
@@ -52,12 +46,6 @@ const InsightsSummary = () => {
             </span>
           )}
         </div>
-        <button
-          onClick={handleRefresh}
-          style={{ background: 'none', border: 'none', color: 'var(--colour-text-muted)', cursor: 'pointer', fontSize: '11px', padding: 0 }}
-        >
-          Refresh
-        </button>
       </div>
 
       {isLoading && (
@@ -77,7 +65,6 @@ const InsightsSummary = () => {
         </div>
       )}
 
-      {/* Unacknowledged */}
       {unacknowledged.length > 0 && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           {unacknowledged.map((insight: any) => {
@@ -118,7 +105,6 @@ const InsightsSummary = () => {
                   </div>
                   <button
                     onClick={() => handleAcknowledge(insight.id)}
-                    title="Acknowledge — marks as seen, stays until resolved"
                     style={{
                       padding: '4px 10px',
                       background: 'var(--colour-bg-card)',
@@ -140,7 +126,6 @@ const InsightsSummary = () => {
         </div>
       )}
 
-      {/* Acknowledged section */}
       {acknowledgedRows.length > 0 && (
         <div style={{ marginTop: '12px' }}>
           <div style={{ fontSize: '10px', color: 'var(--colour-text-muted)', textTransform: 'uppercase' as const, letterSpacing: '0.6px', marginBottom: '8px' }}>

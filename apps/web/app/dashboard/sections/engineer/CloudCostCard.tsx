@@ -92,7 +92,7 @@ const TotalSpendEngineerCard = ({ from, to }: { from: string; to: string }) => {
             }}>
               <span>{s.service_name}</span>
               <span style={{ color: 'var(--colour-text-secondary)' }}>
-                £{s.net_amortised_cost.toLocaleString()}
+                £{(s.net_amortised_cost ?? s.cost ?? 0).toLocaleString()}
               </span>
             </div>
           ))}

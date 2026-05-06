@@ -6,6 +6,7 @@ import Link from 'next/link'
 const TABS = [
   { label: 'General', href: '/dashboard/settings/general' },
   { label: 'Team', href: '/dashboard/settings/team' },
+  { label: 'User', href: '/dashboard/settings/user' },
 ]
 
 const SettingsLayout = ({ children }: { children: React.ReactNode }) => {

@@ -164,6 +164,7 @@ const MetricCard = ({
         fontWeight: 600,
         color: 'var(--colour-text-label)',
         marginBottom: '8px',
+        paddingRight: '72px',
       }}>
         {label}
       </div>
