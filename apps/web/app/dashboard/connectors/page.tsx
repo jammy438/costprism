@@ -29,6 +29,7 @@ const ConnectorsPage = () => {
       </div>
       <ConnectorsList />
     </div>
+    </PageErrorBoundary>
   )
 }
 

@@ -11,6 +11,7 @@ const SavingsCard = () => {
             value={data ? `£${data.savings.toLocaleString()}` : '—'}
             trend={data ? `${data.savings} identified` : '—'}
             trendDirection="down"
+            upIsBad
             glow="green"
             isLoading={isLoading}
             isError={isError} 

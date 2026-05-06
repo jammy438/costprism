@@ -12,6 +12,7 @@ const SavingsCardEng = () => {
       value={data ? `£${data.savings.toLocaleString()}/month` : '—'}
       trend="identified savings"
       trendDirection="down"
+      upIsBad
       glow="none"
       isLoading={isLoading}
       isError={isError}

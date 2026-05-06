@@ -29,6 +29,8 @@ const TopServiceIncreases = () => {
         fontWeight: 600,
         color: 'var(--colour-text-label)',
         marginBottom: '16px',
+        paddingRight: '72px',
+        paddingTop: '14px',
       }}>
         Top Service Increases
       </div>
@@ -59,7 +61,6 @@ const TopServiceIncreases = () => {
               onClick={() => router.push(`/dashboard/costs?service=${service.service}`)}
               style={{ cursor: 'pointer' }}
             >
-              {/* Service name + badge */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
                 <span style={{ fontSize: '13px', color: 'var(--colour-text-primary)', fontWeight: 500 }}>
                   {service.service}
@@ -76,7 +77,6 @@ const TopServiceIncreases = () => {
                 </div>
               </div>
 
-              {/* Progress bar */}
               <div style={{
                 height: '4px',
                 borderRadius: '2px',

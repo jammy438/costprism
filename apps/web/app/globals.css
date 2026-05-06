@@ -315,3 +315,48 @@ body {
 @media print {
   .no-print { display: none !important; }
 }
+
+/* ─── UI Prefs: font size ─────────────────────────────────────────────────── */
+:root {
+  --cp-font-size-base: 14px;
+}
+
+body {
+  font-size: var(--cp-font-size-base);
+}
+
+/* ─── Colour modes ────────────────────────────────────────────────────────── */
+
+[data-colour-mode="high-contrast"] {
+  --colour-text-primary:   #ffffff;
+  --colour-text-secondary: #e0e0e0;
+  --colour-text-muted:     #b0b0b0;
+  --colour-bg-page:        #000000;
+  --colour-bg-sidebar:     #000000;
+  --colour-bg-card:        #111111;
+  --colour-bg-card-hover:  #1a1a1a;
+  --colour-border:         #555555;
+  --colour-border-subtle:  #444444;
+  --colour-blue:           #5b9fff;
+  --colour-green:          #4cef4c;
+  --colour-yellow:         #ffe44d;
+  --colour-red:            #ff6b6b;
+}
+
+[data-colour-mode="deuteranopia"] {
+  --colour-green:          #0077bb;
+  --colour-red:            #ee7733;
+  --colour-yellow:         #ccbb44;
+  --colour-spend-up:       #ee7733;
+  --colour-spend-down:     #0077bb;
+  --colour-warning:        #ccbb44;
+}
+
+[data-colour-mode="protanopia"] {
+  --colour-green:          #009988;
+  --colour-red:            #ee7733;
+  --colour-yellow:         #ccbb44;
+  --colour-spend-up:       #ee7733;
+  --colour-spend-down:     #009988;
+  --colour-warning:        #ccbb44;
+}

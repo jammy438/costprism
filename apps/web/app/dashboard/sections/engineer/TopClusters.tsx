@@ -42,6 +42,8 @@ const TopClusters = () => {
         fontWeight: 600,
         color: 'var(--colour-text-label)',
         marginBottom: '16px',
+        paddingRight: '72px',
+        paddingTop: '14px',
       }}>
         Top Clusters
       </div>

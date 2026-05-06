@@ -13,7 +13,6 @@ interface DrillDownWrapperProps {
 }
 
 const DrillDownWrapper = ({ children, title, queryKeys = [], expandedContent, tableData }: DrillDownWrapperProps) => {
-  const [hovered, setHovered] = useState(false)
   const [mode, setMode] = useState<'card' | 'expanded' | 'table'>('card')
   const [refreshing, setRefreshing] = useState(false)
   const queryClient = useQueryClient()
@@ -183,26 +182,22 @@ const DrillDownWrapper = ({ children, title, queryKeys = [], expandedContent, ta
   }
 
   return (
-    <div
-      style={{ position: 'relative' }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
+    <div style={{ position: 'relative' }}>
       {children}
 
-      {hovered && (canExpand || canTable || queryKeys.length > 0) && (
+      {(canExpand || canTable || queryKeys.length > 0) && (
         <div style={{
           position: 'absolute',
           top: '10px',
           right: '10px',
           display: 'flex',
+          flexDirection: 'column',
           gap: '4px',
           zIndex: 10,
         }}>
           {canExpand && (
             <button
               onClick={() => setMode('expanded')}
-              title="Expand detail"
               style={{
                 width: '26px',
                 height: '26px',
@@ -223,7 +218,6 @@ const DrillDownWrapper = ({ children, title, queryKeys = [], expandedContent, ta
           {canTable && (
             <button
               onClick={() => setMode('table')}
-              title="Table view"
               style={{
                 width: '26px',
                 height: '26px',
@@ -243,7 +237,6 @@ const DrillDownWrapper = ({ children, title, queryKeys = [], expandedContent, ta
           )}
           <button
             onClick={handleRefresh}
-            title="Refresh"
             style={{
               width: '26px',
               height: '26px',
