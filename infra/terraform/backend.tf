@@ -1,0 +1,1 @@
+# terraform/backend.tf at the root of the terraform folder — this is the S3 state bucket and DynamoDB lock table config, must be done first before any other Terraform

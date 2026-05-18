@@ -1,0 +1,1 @@
+// George writes the Pydantic model in Python first, you create the matching TypeScript type from it. This is the only file that crosses the boundary between his work and yours.
