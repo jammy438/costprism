@@ -1,8 +1,30 @@
 from fastapi import APIRouter, Query
-from src.models.responses import TagsDiscoveredResponse, TagsDiscoveredKeysResponse, TagsNormalisedKeysResponse, TagsNormalisedResponse
+from datetime import date
+import hashlib
+import json
+from google.cloud import bigquery
+import os
+
+from src.utils.bigquery import run_query
+from src.utils.postgres import get_org_currency
+from src.utils import redis
+from src.models.responses import (
+    TagsDiscoveredResponse, TagsDiscoveredKeysResponse, 
+    TagsNormalisedKeysResponse, TagsNormalisedResponse)
 
 
 router = APIRouter()
+
+PROJECT = os.getenv("BIGQUERY_PROJECT_ID")
+DATASET = os.getenv("BIGQUERY_DATASET")
+TABLE   = f"`{PROJECT}.{DATASET}.fct_focus_costs`"
+TTL     = 300  # 5 min cache
+
+
+def _cache_key(org_id: str, endpoint: str, from_date, to_date) -> str:
+    hash_input = f"{endpoint}:{from_date}:{to_date}"
+    h = hashlib.md5(hash_input.encode()).hexdigest()
+    return f"cache:metrics:{org_id}:{h}"
 
 
 @router.get("/tags/discovered", response_model=TagsDiscoveredKeysResponse)
