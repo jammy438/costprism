@@ -1,3 +1,14 @@
+# CostPrism — add ingestion_jobs table (from George's email)
+# Run from the repo root, e.g.:
+#   cd C:\Users\44774\Desktop\Coding\CostPrism\costprism-monorepo
+#   .\add-ingestion-jobs.ps1
+#
+# This overwrites packages\db\prisma\schema.prisma with the full file,
+# including the new IngestionJob model. Same WriteAllText approach as usual.
+
+$utf8NoBom = New-Object System.Text.UTF8Encoding $false
+
+$schema = @'
 generator client {
   provider = "prisma-client-js"
 }
@@ -5,7 +16,6 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
 }
 
 enum UserRole {
@@ -347,3 +357,8 @@ model Subscription {
   @@index([stripeCustomerId])
   @@map("subscriptions")
 }
+'@
+
+[System.IO.File]::WriteAllText("packages\db\prisma\schema.prisma", $schema, $utf8NoBom)
+Write-Host "Wrote packages\db\prisma\schema.prisma" -ForegroundColor Green
+Write-Host "Next: cd packages\db, then npx prisma db push, then npx prisma generate" -ForegroundColor Yellow
