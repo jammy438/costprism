@@ -347,3 +347,23 @@ model Subscription {
   @@index([stripeCustomerId])
   @@map("subscriptions")
 }
+
+model AnomalyConfig {
+  orgId             String @id @map("org_id")
+  sigmaThreshold    Float  @default(3.0) @map("sigma_threshold")
+  absoluteFloorGbp  Float  @default(5.0) @map("absolute_floor_gbp")
+  percentageFloor   Float  @default(50.0) @map("percentage_floor")
+  lookbackDays      Int    @default(30) @map("lookback_days")
+  suppressionDays   Int    @default(1) @map("suppression_days")
+
+  @@map("anomaly_config")
+}
+
+model TagConfig {
+  orgId               String   @id @map("org_id")
+  requiredTagKeys     String[] @default([]) @map("required_tag_keys")
+  enableNormalisation Boolean  @default(true) @map("enable_normalisation")
+  customBundles       Json     @default("{}") @map("custom_bundles")
+
+  @@map("tag_config")
+}
